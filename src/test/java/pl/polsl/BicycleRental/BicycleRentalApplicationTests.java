@@ -1,4 +1,4 @@
-package com.BicycleRenral.BicycleRental;
+package pl.polsl.BicycleRental;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

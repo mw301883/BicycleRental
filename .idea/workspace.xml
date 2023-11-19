@@ -1,32 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="b8a737bf-d550-455b-afa1-814fc0acc7a1" name="Changes" comment="" />
+    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Opinion.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/BicycleRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OpinionRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OrderRepo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/OpinionsView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BicycleRental.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/src/main/java/com/BicycleRenral/BicycleRental/BicycleRentalApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/BicycleRentalApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BicycleRental/src/test/java/com/BicycleRenral/BicycleRental/BicycleRentalApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pl/polsl/BicycleRental/BicycleRentalApplicationTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectId" id="2WX0iVHAw7C7MtbsSeaqilPymxN" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2YJ0vDDeWUxo6GRPXcWDrbIVoPh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Michał/IdeaProjects/BicycleRental"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Michał/IdeaProjects/BicycleRental&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\templates\CustomerView" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b8a737bf-d550-455b-afa1-814fc0acc7a1" name="Changes" comment="" />
-      <created>1696863744682</created>
+      <changelist id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="" />
+      <created>1700228606389</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1696863744682</updated>
+      <updated>1700228606389</updated>
     </task>
     <servers />
   </component>
