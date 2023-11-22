@@ -20,24 +20,26 @@ public class CustomerViewCtrl {
     @GetMapping("/store")
     public String mainPage(){
         //TODO HTML do strony głównej
-        return "";
+        return "CustomerView/index";
     }
     @GetMapping("/opinions")
     public String opinionsPage(){
-        return "CustomerView/OpinionsView";
+
+        return "CustomerView/opinions";
     }
     @PostMapping("/uploadOpinion")
-    public void uploadOpinion(@RequestBody Opinion newOpinion){
-        this.opinionServ.addOpinion(newOpinion);
+    public String uploadOpinion(@RequestParam String name, @RequestParam String email, @RequestParam String subject, @RequestParam String message){
+        this.opinionServ.addOpinion(new Opinion(name, email, subject, message));
+        return "redirect:/opinions";
     }
     @GetMapping("/regulations")
     public String regulationsPage(){
         //TODO HTML do strony z regulaminem
-        return "";
+        return "CustomerView/rules";
     }
     @GetMapping("/contact")
     public String MainPage(){
         //TODO HTML do strony z informacjami kontaktowymi
-        return "";
+        return "CustomerView/contact";
     }
 }

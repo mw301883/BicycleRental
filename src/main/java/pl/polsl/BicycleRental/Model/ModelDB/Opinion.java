@@ -19,8 +19,19 @@ public class Opinion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "opinionId")
     private Long id;
+    @Column(name = "name")
+    private String name;
     @Column(name = "customerEmail")
     private String customerEmail;
-    @Column(name = "content")
-    private String content;
+    @Column(name = "subject")
+    private String subject;
+    @Column(name = "message")
+    private String message;
+
+    public Opinion(String name, String email, String subject, String message) {
+        this.name = name;
+        this.customerEmail = email;
+        this.subject = subject;
+        this.message = message;
+    }
 }
