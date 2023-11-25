@@ -1,4 +1,44 @@
 package pl.polsl.BicycleRental.Model.ModelDB;
-//TODO
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "Bicycle")
 public class Bicycle {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bicycleId")
+    private Long id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "photoURL")
+    private String photoURL;
+    @Column(name = "pricePerDay")
+    private BigDecimal pricePerDay;
+    @Column(name = "rentStartDate")
+    private Calendar rentStartDate;
+    @Column(name = "rentEndDate")
+    private Calendar rentEndDate;
+
+    Bicycle(String name, String type, String photoURL, BigDecimal pricePerDay){
+        this.name = name;
+        this.type = type;
+        this.photoURL = photoURL;
+        this.pricePerDay = pricePerDay;
+        this.rentStartDate = null;
+        this.rentEndDate = null;
+    }
 }

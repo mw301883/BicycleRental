@@ -2,8 +2,10 @@ package pl.polsl.BicycleRental.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
+import pl.polsl.BicycleRental.Model.Service.BicycleServ;
 import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 //W kontrolerach wyświetlamy strony HTML, metody z atnotacją @GetMapping po prostu wyświetlają stronę a z kolei
 //metody z adnotacjami @PostMapping pobierają dane z formularzy czyli z <form></form>, backend będziemy łączyli poprzez Thymleaf
@@ -13,18 +15,20 @@ import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 @RequestMapping("/")
 public class CustomerViewCtrl {
     private final OpinionServ opinionServ;
+    private final BicycleServ bicycleServ;
     @Autowired
-    CustomerViewCtrl(OpinionServ opinionServ){
+    CustomerViewCtrl(OpinionServ opinionServ, BicycleServ bicycleServ){
+
         this.opinionServ = opinionServ;
+        this.bicycleServ = bicycleServ;
     }
     @GetMapping("/store")
-    public String mainPage(){
-        //TODO HTML do strony głównej
+    public String mainPage(Model model){
+        model.addAttribute("bicycles", this.bicycleServ.findAll());
         return "CustomerView/index";
     }
     @GetMapping("/opinions")
     public String opinionsPage(){
-
         return "CustomerView/opinions";
     }
     @PostMapping("/uploadOpinion")
