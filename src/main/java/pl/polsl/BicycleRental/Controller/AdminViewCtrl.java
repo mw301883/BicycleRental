@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminViewCtrl {
     //TODO
-    @GetMapping("/mainPage")
+    @GetMapping()
     public String mainAdminPage(){
         return "AdminView/AdminPageDemo";
     }

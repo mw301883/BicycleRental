@@ -33,11 +33,11 @@ public class Bicycle {
     @Column(name = "rentEndDate")
     private Calendar rentEndDate;
 
-    Bicycle(String name, String type, String photoURL, BigDecimal pricePerDay){
+    public Bicycle(String name, String type, String photoURL, double pricePerDay){
         this.name = name;
         this.type = type;
         this.photoURL = photoURL;
-        this.pricePerDay = pricePerDay;
+        this.pricePerDay = new BigDecimal(pricePerDay);
         this.rentStartDate = null;
         this.rentEndDate = null;
     }
