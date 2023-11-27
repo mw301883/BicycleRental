@@ -36,6 +36,10 @@ public class CustomerViewCtrl {
         this.opinionServ.addOpinion(new Opinion(name, email, subject, message));
         return "redirect:/opinions";
     }
+    @GetMapping("/aboutUs")
+    public String aboutUsPage(){
+        return "CustomerView/aboutUs";
+    }
     @GetMapping("/regulations")
     public String regulationsPage(){
         //TODO HTML do strony z regulaminem
