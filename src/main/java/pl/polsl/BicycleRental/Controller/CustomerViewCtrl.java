@@ -33,6 +33,9 @@ public class CustomerViewCtrl {
     }
     @PostMapping("/uploadOpinion")
     public String uploadOpinion(@RequestParam String name, @RequestParam String email, @RequestParam String subject, @RequestParam String message){
+        //TODO wysłać alert o błędzie
+        if(name.isEmpty() || email.isEmpty() || subject.isEmpty() || message.isEmpty())
+            return "redirect:/opinions";
         this.opinionServ.addOpinion(new Opinion(name, email, subject, message));
         return "redirect:/opinions";
     }
