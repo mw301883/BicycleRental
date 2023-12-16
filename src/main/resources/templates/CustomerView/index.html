@@ -16,6 +16,9 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body>
+        <div th:if="${message}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">

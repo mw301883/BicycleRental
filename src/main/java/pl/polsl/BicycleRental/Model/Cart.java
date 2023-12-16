@@ -14,8 +14,8 @@ import java.util.Calendar;
 @Setter
 public class Cart {
     private ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-    private Calendar beginRent;
-    private Calendar endRent;
+//    private Calendar beginRent;
+//    private Calendar endRent;
     private String customerFirstName;
     private String customerLastName;
     private String customerAddress;
