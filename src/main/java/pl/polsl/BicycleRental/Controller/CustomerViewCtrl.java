@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.polsl.BicycleRental.Model.Cart;
+import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
 import pl.polsl.BicycleRental.Model.Service.BicycleServ;
 import pl.polsl.BicycleRental.Model.Service.OpinionServ;
@@ -16,19 +18,24 @@ import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 public class CustomerViewCtrl {
     private final OpinionServ opinionServ;
     private final BicycleServ bicycleServ;
+    private Cart sessionCart;
     @Autowired
     CustomerViewCtrl(OpinionServ opinionServ, BicycleServ bicycleServ){
-
         this.opinionServ = opinionServ;
         this.bicycleServ = bicycleServ;
+        this.sessionCart = new Cart();
+        sessionCart.addBicycleToCart(new Bicycle("Rower MTB TORPADO 7 Biegów 29 cali", "Górski", "https://a.allegroimg.com/s400/1153b2/ab751e6a4b16ad8ba29188dc2652/Rower-gorski-MTB-TORPADO-7-Biegow-29-cali-meski", 25));
+        sessionCart.addBicycleToCart(new Bicycle("Rower MTB TORPADO 7 Biegów 29 cali", "Górski", "https://a.allegroimg.com/s400/1153b2/ab751e6a4b16ad8ba29188dc2652/Rower-gorski-MTB-TORPADO-7-Biegow-29-cali-meski", 25));
     }
     @GetMapping("/store")
     public String mainPage(Model model){
         model.addAttribute("bicycles", this.bicycleServ.findAll());
+        model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/index";
     }
     @GetMapping("/opinions")
-    public String opinionsPage(){
+    public String opinionsPage(Model model){
+        model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/opinions";
     }
     @PostMapping("/uploadOpinion")
@@ -40,17 +47,32 @@ public class CustomerViewCtrl {
         return "redirect:/opinions";
     }
     @GetMapping("/aboutUs")
-    public String aboutUsPage(){
+    public String aboutUsPage(Model model){
+        model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/aboutUs";
     }
     @GetMapping("/regulations")
-    public String regulationsPage(){
-        //TODO HTML do strony z regulaminem
+    public String regulationsPage(Model model){
+        model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/rules";
     }
     @GetMapping("/contact")
-    public String MainPage(){
-        //TODO HTML do strony z informacjami kontaktowymi
+    public String contactPage(Model model){
+        model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/contact";
+    }
+    @GetMapping("/cart")
+    public String cartPage(Model model){
+        model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
+        return "CustomerView/cart";
+    }
+    @PostMapping("/removeFromCart")
+    public String removeFromCart(@RequestParam int index){
+        this.sessionCart.removeBicycleFromCart(index);
+        return "redirect:/cart";
+    }
+    @GetMapping("/summary")
+    public String summaryPage(){
+        return "CustomerView/summary";
     }
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koszyk - Wypożyczalnia Rowerów</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Koszyk - Wypożyczalnia Rowerów</h1>
+            <div class="container px-4 px-lg-5 mt-5" th:each = "bicycle, iterStat : ${bicyclesInCart}" >
+                <div>
+                    <img th:src="@{${bicycle.photoURL}}"/>
+                    <div>
+                        <div>
+                            <h5>Model:</h5>
+                            <span th:text=${bicycle.name}></span>
+                            <h5>Typ:</h5>
+                            <span th:text=${bicycle.type}></span>
+                            <h5>Cena:</h5>
+                            <span th:text=${bicycle.pricePerDay}></span>
+                            <span> zł/za dzień</span>
+                        </div>
+                    </div>
+                </div>
+                <form method="post" th:action="@{/removeFromCart}">
+                    <input type="hidden" name="index" th:value="${iterStat.index}">
+                    <button class="button" type="submit">
+                        Usuń
+                    </button>
+                </form>
+        </div>
+        <a href="summary" class="button">Dalej</a>
+    </div>
+</body>
+</html>
