@@ -32,7 +32,6 @@ public class Bicycle {
     private Calendar rentStartDate;
     @Column(name = "rentEndDate")
     private Calendar rentEndDate;
-
     public Bicycle(String name, String type, String photoURL, double pricePerDay){
         this.name = name;
         this.type = type;

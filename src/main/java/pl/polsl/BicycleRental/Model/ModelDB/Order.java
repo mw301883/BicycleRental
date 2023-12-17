@@ -50,6 +50,7 @@ public class Order {
                  BigDecimal price){
         this.bicycles = bicycles;
         this.beginRent = beginRent;
+        this.endRent = endRent;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
         this.customerAddress = customerAddress;

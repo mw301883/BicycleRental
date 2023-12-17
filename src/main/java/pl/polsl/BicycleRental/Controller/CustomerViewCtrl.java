@@ -15,6 +15,7 @@ import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 import pl.polsl.BicycleRental.Model.Service.OrderServ;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -75,6 +76,7 @@ public class CustomerViewCtrl {
         model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/contact";
     }
+    //TODO zaimplementować promocję
     @GetMapping("/cart")
     public String cartPage(Model model){
         ArrayList<Long> bicycleIDs = new ArrayList<>();
@@ -82,16 +84,17 @@ public class CustomerViewCtrl {
 
         for(Bicycle bicycle : this.sessionCart.getBicyclesInCart()){
             bicycleIDs.add(bicycle.getId());
-            //przemnożyć przez ilość dni wypożyczenia
-            price.add(bicycle.getPricePerDay());
+            price = price.add(bicycle.getPricePerDay());
         }
-
-        long differenceMillis = this.sessionCart.getBeginRent().getTimeInMillis() - this.sessionCart.getEndRent().getTimeInMillis();
+        long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
         long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
-        //TODO fix set price
-        this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
+        if(differenceDays != 0){
+            this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
+        }
+        else{
+            this.sessionCart.setPrice(price);
+        }
         this.sessionCart.setBicyclesIDs(bicycleIDs);
-
         model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
         model.addAttribute("price", this.sessionCart.getPrice());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
@@ -103,7 +106,8 @@ public class CustomerViewCtrl {
         return "redirect:/cart";
     }
     @GetMapping("/summary")
-    public String summaryPage(){
+    public String summaryPage(Model model){
+        model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/summary";
     }
     @PostMapping("/makeOrder")
@@ -113,6 +117,9 @@ public class CustomerViewCtrl {
         this.orderServ.makeOrder(new Order(this.sessionCart.getBicyclesIDs(), this.sessionCart.getBeginRent(),
                 this.sessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
                 email, phoneNum, this.sessionCart.getPrice()));
+        for(Long id : this.sessionCart.getBicyclesIDs()){
+            this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
+        }
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone.");
         return "redirect:/store";
     }
@@ -121,13 +128,20 @@ public class CustomerViewCtrl {
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         if (bicycle != null) {
             this.sessionCart.addBicycleToCart(bicycle);
-            redirectAttributes.addFlashAttribute("message", "Bicycle added to the cart.");
+            redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
         }
         return "redirect:/store";
     }
     @PostMapping("setRentalDate")
     public String seRentalDate(@RequestParam("beginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate beginDate,
-                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
+                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+                               RedirectAttributes redirectAttributes){
+        LocalDate currentDate = LocalDate.now();
+
+        if (beginDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
+            redirectAttributes.addFlashAttribute("error", "Nie można wybrać daty z przeszłości.");
+            return "redirect:/store";
+        }
         Calendar beginCalendar = Calendar.getInstance();
         beginCalendar.setTimeInMillis(
                 Instant.from(beginDate.atStartOfDay(ZoneId.systemDefault())).getEpochSecond() * 1000
@@ -138,6 +152,11 @@ public class CustomerViewCtrl {
         );
         this.sessionCart.setBeginRent(beginCalendar);
         this.sessionCart.setEndRent(endCalendar);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedBeginDate = dateFormat.format(beginCalendar.getTime());
+        String formattedEndDate = dateFormat.format(endCalendar.getTime());
+        redirectAttributes.addFlashAttribute("message", "Ustawiono datę wypożyczenia od "
+                + formattedBeginDate + " do " + formattedEndDate);
         return "redirect:/store";
     }
 }
