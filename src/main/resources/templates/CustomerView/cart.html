@@ -4,60 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koszyk - Wypożyczalnia Rowerów</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #4caf50;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="store">Wypożyczalnia</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="store">Strona główna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutUs">O nas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="opinions">Opinie</a></li>
+                    <li class="nav-item"><a class="nav-link" href="regulations">Regulamin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Kontakt</a></li>
+                </ul>
+            </div>
+            <form class="d-flex" action="cart" method="get">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Koszyk
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text=${cartSize}></span>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Wypożyczalnia Rowerów</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Z nami wypożyczysz swój wymarzony rower</p>
+            </div>
+        </div>
+    </header>
     <div class="container">
-        <h1>Koszyk - Wypożyczalnia Rowerów</h1>
-            <div class="container px-4 px-lg-5 mt-5" th:each = "bicycle, iterStat : ${bicyclesInCart}" >
-                <div>
-                    <img th:src="@{${bicycle.photoURL}}"/>
-                    <div>
-                        <div>
-                            <h5>Model:</h5>
-                            <span th:text=${bicycle.name}></span>
-                            <h5>Typ:</h5>
-                            <span th:text=${bicycle.type}></span>
-                            <h5>Cena:</h5>
-                            <span th:text=${bicycle.pricePerDay}></span>
-                            <span> zł/za dzień</span>
+        <h1 class="my-4">Koszyk - Wypożyczalnia Rowerów</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="list-group">
+                    <div th:each="bicycle, iterStat : ${bicyclesInCart}" class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img th:src="@{${bicycle.photoURL}}" alt="Product Image" class="img-fluid"/>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-0" th:text=${bicycle.name}></h5>
+                                <small class="text-muted" th:text=${bicycle.type}></small>
+                                <p class="mb-1 mt-2">
+                                    Model: <span th:text=${bicycle.name}></span> 
+                                    Typ: <span th:text=${bicycle.type}></span>
+                                    Cena: <span th:text=${bicycle.pricePerDay}></span> zł/za dzień
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <form method="post" th:action="@{/removeFromCart}">
+                                    <input type="hidden" name="index" th:value="${iterStat.index}">
+                                    <button class="btn btn-danger" type="submit">Usuń</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <form method="post" th:action="@{/removeFromCart}">
-                    <input type="hidden" name="index" th:value="${iterStat.index}">
-                    <button class="button" type="submit">
-                        Usuń
-                    </button>
-                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Podsumowanie</h5>
+                        <p class="card-text">Liczba rowerów: <span th:text=${cartSize}></span></p>
+                        <p class="card-text">Suma: <span th:text="${price}"></span> zł</p>
+                        <a href="summary" class="btn btn-primary">Dalej</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a href="summary" class="button">Dalej</a>
     </div>
+    <!-- Bootstrap JS and Popper.js scripts (needed for some Bootstrap features) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Wypozyczalnia</p></div>
+    </footer>
 </body>
 </html>

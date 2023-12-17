@@ -5,14 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/second.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/cart.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/BicycleRentalApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/BicycleRentalApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OrderRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OrderRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/first.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/assets/first.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/opinions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/opinions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/js/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/js/scripts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/summary.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +38,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.0.13/spring-web-6.0.13.jar!/org/springframework/web/method/support/InvocableHandlerMethod.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/6.0.13/spring-webmvc-6.0.13.jar!/org/springframework/web/servlet/mvc/method/annotation/ServletInvocableHandlerMethod.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -70,9 +81,11 @@
       <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\static\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\static\assets" />
-      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\static" />
       <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\templates\CustomerView" />
+      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\templates\AdminView" />
+      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\templates\CustomerView\css" />
+      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\static\assets" />
+      <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\templates" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -98,20 +111,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="order" />

@@ -1,6 +1,7 @@
 package pl.polsl.BicycleRental.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 import pl.polsl.BicycleRental.Model.Service.OrderServ;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -34,8 +38,6 @@ public class CustomerViewCtrl {
         this.bicycleServ = bicycleServ;
         this.orderServ = orderServ;
         this.sessionCart = new Cart();
-        sessionCart.addBicycleToCart(new Bicycle("Rower MTB TORPADO 7 Biegów 29 cali", "Górski", "https://a.allegroimg.com/s400/1153b2/ab751e6a4b16ad8ba29188dc2652/Rower-gorski-MTB-TORPADO-7-Biegow-29-cali-meski", 25));
-        sessionCart.addBicycleToCart(new Bicycle("Rower MTB TORPADO 7 Biegów 29 cali", "Górski", "https://a.allegroimg.com/s400/1153b2/ab751e6a4b16ad8ba29188dc2652/Rower-gorski-MTB-TORPADO-7-Biegow-29-cali-meski", 25));
     }
     @GetMapping("/store")
     public String mainPage(Model model){
@@ -51,11 +53,7 @@ public class CustomerViewCtrl {
     @PostMapping("/uploadOpinion")
     public String uploadOpinion(@RequestParam String name, @RequestParam String email, @RequestParam String subject,
                                 @RequestParam String message, RedirectAttributes redirectAttributes){
-        //TODO wysłać alert o błędzie
-//        if(name.isEmpty() || email.isEmpty() || subject.isEmpty() || message.isEmpty())
-//            return "redirect:/opinions";
         if (name.isEmpty() || email.isEmpty() || subject.isEmpty() || message.isEmpty()) {
-            // Przekazujemy komunikat o błędzie do widoku
             redirectAttributes.addFlashAttribute("error", "Wszystkie pola są wymagane!");
             return "redirect:/opinions";
         }
@@ -79,7 +77,24 @@ public class CustomerViewCtrl {
     }
     @GetMapping("/cart")
     public String cartPage(Model model){
+        ArrayList<Long> bicycleIDs = new ArrayList<>();
+        BigDecimal price = new BigDecimal(0);
+
+        for(Bicycle bicycle : this.sessionCart.getBicyclesInCart()){
+            bicycleIDs.add(bicycle.getId());
+            //przemnożyć przez ilość dni wypożyczenia
+            price.add(bicycle.getPricePerDay());
+        }
+
+        long differenceMillis = this.sessionCart.getBeginRent().getTimeInMillis() - this.sessionCart.getEndRent().getTimeInMillis();
+        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
+        //TODO fix set price
+        this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
+        this.sessionCart.setBicyclesIDs(bicycleIDs);
+
         model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
+        model.addAttribute("price", this.sessionCart.getPrice());
+        model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/cart";
     }
     @PostMapping("/removeFromCart")
@@ -95,17 +110,34 @@ public class CustomerViewCtrl {
     public String makeOrder(@RequestParam String firstName, @RequestParam String lastName,
                             @RequestParam String address, @RequestParam String city, @RequestParam String postalCode,
                             @RequestParam String email, @RequestParam String phoneNum, RedirectAttributes redirectAttributes){
-        ArrayList<Long> bicycleIDs = new ArrayList<>();
-        BigDecimal price = new BigDecimal(0);
-        for(Bicycle bicycle : this.sessionCart.getBicyclesInCart()){
-            bicycleIDs.add(bicycle.getId());
-            //przemnożyć przez ilość dni wypożyczenia
-            price.add(bicycle.getPricePerDay());
-        }
-        this.orderServ.makeOrder(new Order(bicycleIDs, this.sessionCart.getBicyclesInCart().get(0).getRentStartDate(),
-                this.sessionCart.getBicyclesInCart().get(0).getRentEndDate(), firstName, lastName, address, city, postalCode,
-                email, phoneNum, price));
+        this.orderServ.makeOrder(new Order(this.sessionCart.getBicyclesIDs(), this.sessionCart.getBeginRent(),
+                this.sessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
+                email, phoneNum, this.sessionCart.getPrice()));
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone.");
+        return "redirect:/store";
+    }
+    @PostMapping("/addToCart")
+    public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes){
+        Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
+        if (bicycle != null) {
+            this.sessionCart.addBicycleToCart(bicycle);
+            redirectAttributes.addFlashAttribute("message", "Bicycle added to the cart.");
+        }
+        return "redirect:/store";
+    }
+    @PostMapping("setRentalDate")
+    public String seRentalDate(@RequestParam("beginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate beginDate,
+                               @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
+        Calendar beginCalendar = Calendar.getInstance();
+        beginCalendar.setTimeInMillis(
+                Instant.from(beginDate.atStartOfDay(ZoneId.systemDefault())).getEpochSecond() * 1000
+        );
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTimeInMillis(
+                Instant.from(endDate.atStartOfDay(ZoneId.systemDefault())).getEpochSecond() * 1000
+        );
+        this.sessionCart.setBeginRent(beginCalendar);
+        this.sessionCart.setEndRent(endCalendar);
         return "redirect:/store";
     }
 }

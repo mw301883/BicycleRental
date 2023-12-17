@@ -41,4 +41,12 @@ public class Bicycle {
         this.rentStartDate = null;
         this.rentEndDate = null;
     }
+    public boolean isRented() {
+        return rentStartDate != null && rentEndDate != null;
+    }
+    public void rentBicycle(Calendar start, Calendar end) {
+        this.rentStartDate = start;
+        this.rentEndDate = end;
+    }
+
 }

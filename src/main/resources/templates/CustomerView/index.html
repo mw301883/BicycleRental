@@ -1,124 +1,164 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-       
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div th:if="${message}" class="alert alert-success">
-            <p th:text="${message}"></p>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Shop Homepage - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        /* Dodane style dla upiększenia wyboru daty */
+        label {
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="store">Wypożyczalnia</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="store">Strona główna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutUs">O nas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="opinions">Opinie</a></li>
+                    <li class="nav-item"><a class="nav-link" href="regulations">Regulamin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Kontakt</a></li>
+                </ul>
+            </div>
+            <form class="d-flex" action="cart" method="get">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Koszyk
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text=${cartSize}></span>
+                </button>
+            </form>
         </div>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="store">Wypożyczalnia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="store">Strona główna</a></li>
-                        <li class="nav-item"><a class="nav-link" href="aboutUs">O nas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="opinions">Opinie</a></li>
-                        <li class="nav-item"><a class="nav-link" href="regulations">Regulamin</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact">Kontakt</a></li>
-                    </ul>
-                </div>
-                <form class="d-flex" action="cart" method="get">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Koszyk
-                        <span class="badge bg-dark text-white ms-1 rounded-pill" th:text=${cartSize}></span>
-                    </button>
-                </form>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Wypożyczalnia Rowerów</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Z nami wypożyczysz swój wymarzony rower</p>
             </div>
-        </nav>
-        <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Wypożyczalnia Rowerów</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Z nami wypożyczysz swój wymarzony rower</p>
+        </div>
+    </header>
+    <!-- Data Selection Section -->
+    <section class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h3 class="text-center mb-4">Wybierz daty wypożyczenia</h3>
+                    <form th:action="@{/setRentalDate}" method="post">
+                        <div class="mb-3">
+                            <label for="beginDate">Data początkowa:</label>
+                            <input type="date" id="beginDate" name="beginDate" required>
+                            <label for="endDate">Data końcowa:</label>
+                            <input type="date" id="endDate" name="endDate" required>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-dark" type="submit">Wybierz date</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5" th:each = "bicycle : ${bicycles}" >
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" th:src="@{${bicycle.photoURL}}"/>
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">Model:</h5>
-                                    <span th:text=${bicycle.name}></span>
-                                    <!-- Product type-->
-                                    <h5 class="fw-bolder">Typ:</h5>
-                                    <span th:text=${bicycle.type}></span>
-                                    <!-- Product price-->
-                                    <h5 class="fw-bolder">Cena:</h5>
-                                    <span th:text=${bicycle.pricePerDay}></span>
-                                    <span> zł/za dzień</span>
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Dodaj do koszyka</a></div>
+        </div>
+    </section>
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5" th:each="bicycle : ${bicycles}">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Product image-->
+                        <img class="card-img-top" th:src="@{${bicycle.photoURL}}" />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder">Model:</h5>
+                                <span th:text=${bicycle.name}></span>
+                                <!-- Product type-->
+                                <h5 class="fw-bolder">Typ:</h5>
+                                <span th:text=${bicycle.type}></span>
+                                <!-- Product price-->
+                                <h5 class="fw-bolder">Cena:</h5>
+                                <span th:text=${bicycle.pricePerDay}></span>
+                                <span> zł/za dzień</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Sale badge-->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                            <!-- Product image-->
-                            <img class="card-img-top" th:src="@{${bicycle.photoURL}}" />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
+                        <form th:action="@{/addToCart}" method="post">
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder" th:text=${bicycle.name}></h5>
-                                    <!-- Product reviews-->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price-->
-                                    <span class="text-muted text-decoration-line-through">25.00 zł</span>
-                                    18.00 zł/za dzień
-                                    <div>Przy wynajmnie przynajmniej 5 rowerów w jednym zamówieniu!</div>
+                                    <!-- Add a hidden input field to store LongId -->
+                                    <input type="hidden" id="LongId" name="LongId" th:value="${bicycle.id}" required>
+
+                                    <button type="submit" class="btn btn-outline-dark mt-auto">Dodaj do koszyka</button>
                                 </div>
                             </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Dodaj do koszyka</a></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        <!-- Sale badge-->
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        <!-- Product image-->
+                        <img class="card-img-top" th:src="@{${bicycle.photoURL}}" />
+                        <!-- Product details-->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name-->
+                                <h5 class="fw-bolder" th:text=${bicycle.name}></h5>
+                                <!-- Product reviews-->
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                    <div class="bi-star-fill"></div>
+                                </div>
+                                <!-- Product price-->
+                                <span class="text-muted text-decoration-line-through">25.00 zł</span>
+                                18.00 zł/za dzień
+                                <div>Przy wynajmnie przynajmniej 5 rowerów w jednym zamówieniu!</div>
                             </div>
                         </div>
+                        <!-- Product actions-->
+<!--                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">-->
+<!--                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Dodaj do koszyka</a></div>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Wypozyczalnia</p></div>
-        </footer>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Wypozyczalnia</p></div>
+    </footer>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+</body>
 </html>

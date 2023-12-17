@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 @AllArgsConstructor
@@ -14,8 +15,9 @@ import java.util.Calendar;
 @Setter
 public class Cart {
     private ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-//    private Calendar beginRent;
-//    private Calendar endRent;
+    private ArrayList<Long> bicyclesIDs = new ArrayList<>();
+    private Calendar beginRent = null;
+    private Calendar endRent = null;
     private String customerFirstName;
     private String customerLastName;
     private String customerAddress;
@@ -23,6 +25,7 @@ public class Cart {
     private String customerPostalCode;
     private String customerEmail;
     private String customerPhoneNum;
+    private BigDecimal price = BigDecimal.valueOf(0.0);
     public int getCartSize(){
         return this.bicyclesInCart.size();
     }
@@ -32,8 +35,4 @@ public class Cart {
     public void removeBicycleFromCart(int index){
         this.bicyclesInCart.remove(index);
     }
-//    public void setCustomerData(String customerFirstName, String customerLastName, String customerAddress, String customerCity,
-//                                String customerPostalCode, String customerEmail, String customerPhoneNum ){
-//
-//    }
 }

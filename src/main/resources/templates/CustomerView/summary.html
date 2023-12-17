@@ -1,39 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Formularz Wypożyczalni Rowerowej</title>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="store">Wypożyczalnia</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="store">Strona główna</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutUs">O nas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="opinions">Opinie</a></li>
+                    <li class="nav-item"><a class="nav-link" href="regulations">Regulamin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Kontakt</a></li>
+                </ul>
+            </div>
+            <form class="d-flex" action="cart" method="get">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Koszyk
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text=${cartSize}></span>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Wypożyczalnia Rowerów</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Z nami wypożyczysz swój wymarzony rower</p>
+            </div>
+        </div>
+    </header>
+<div class="container mt-5">
+    <h2 class="mb-4">Formularz Wypożyczalni Rowerowej - Podsumowanie</h2>
 
-<h2>Formularz Wypożyczalni Rowerowej - Podsumowanie</h2>
+    <form th:action="@{/makeOrder}" method="post" id="rentalForm">
+        <div class="form-group">
+            <label for="firstName">Imię:</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+        </div>
 
-<form th:action="@{/makeOrder}" method="post">
-    <label for="firstName">Imię:</label>
-    <input type="text" id="firstName" name="firstName" required><br>
+        <div class="form-group">
+            <label for="lastName">Nazwisko:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+        </div>
 
-    <label for="lastName">Nazwisko:</label>
-    <input type="text" id="lastName" name="lastName" required><br>
+        <div class="form-group">
+            <label for="address">Adres:</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+        </div>
 
-    <label for="address">Adres:</label>
-    <input type="text" id="address" name="address" required><br>
+        <div class="form-group">
+            <label for="city">Miasto:</label>
+            <input type="text" class="form-control" id="city" name="city" required>
+        </div>
 
-    <label for="city">Miasto:</label>
-    <input type="text" id="city" name="city" required><br>
+        <div class="form-group">
+            <label for="postalCode">Kod pocztowy:</label>
+            <input type="text" class="form-control" id="postalCode" name="postalCode" pattern="[0-9]{2}-[0-9]{3}" placeholder="Wprowadź kod pocztowy (np. 12-345)" required>
+            <small class="text-muted">Format: XX-XXX</small>
+        </div>
 
-    <label for="postalCode">Kod pocztowy:</label>
-    <input type="text" id="postalCode" name="postalCode" required><br>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br>
+        <div class="form-group">
+            <label for="phoneNum">Numer telefonu:</label>
+            <input type="tel" class="form-control" id="phoneNum" name="phoneNum" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="Wprowadź numer telefonu (np. 123-456-789)" required>
+            <small class="text-muted">Format: XXX-XXX-XXX</small>
+        </div>
 
-    <label for="phoneNum">Numer telefonu:</label>
-    <input type="tel" id="phoneNum" name="phoneNum" required><br>
+        <div class="mb-5">
+        <button type="submit" class="btn btn-primary mr-2">Płatność</button>
+        <a href="cart" class="btn btn-secondary">Powrót do koszyka</a>
+        </div>
 
-    <input type="submit" value="Płatność">
+    </form>
+</div>
 
-</form>
-
+<!-- Bootstrap JS and Popper.js scripts (needed for some Bootstrap features) -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Wypozyczalnia</p></div>
+</footer>
 </body>
 </html>
