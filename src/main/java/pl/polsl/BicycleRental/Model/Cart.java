@@ -35,4 +35,17 @@ public class Cart {
     public void removeBicycleFromCart(int index){
         this.bicyclesInCart.remove(index);
     }
+    public void clearCart(){
+        this.bicyclesInCart.clear();
+        this.beginRent = null;
+        this.endRent = null;
+        this.customerFirstName = "";
+        this.customerLastName = "";
+        this.customerAddress = "";
+        this.customerCity = "";
+        this.customerPostalCode = "";
+        this.customerEmail = "";
+        this.customerPhoneNum = "";
+        this.price = BigDecimal.valueOf(0.0);
+    }
 }

@@ -77,8 +77,13 @@ public class CustomerViewCtrl {
         return "CustomerView/contact";
     }
     //TODO zaimplementować promocję
+    //TODO zaimplementować walidację braku podania daty podczas wchodzenia na stronę cart
     @GetMapping("/cart")
-    public String cartPage(Model model){
+    public String cartPage(Model model, RedirectAttributes redirectAttributes){
+//        if(this.sessionCart.getBeginRent().equals(null) || this.sessionCart.getEndRent().equals(null)){
+//            redirectAttributes.addFlashAttribute("error", "Nie podano daty wypożyczenia!");
+//            return "redirect:/store";
+//        }
         ArrayList<Long> bicycleIDs = new ArrayList<>();
         BigDecimal price = new BigDecimal(0);
 
@@ -86,8 +91,11 @@ public class CustomerViewCtrl {
             bicycleIDs.add(bicycle.getId());
             price = price.add(bicycle.getPricePerDay());
         }
-        long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
-        long differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
+        long differenceDays = 0;
+        if (this.sessionCart.getBeginRent() != null && this.sessionCart.getEndRent() != null) {
+            long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
+            differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
+        }
         if(differenceDays != 0){
             this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
         }
@@ -110,6 +118,7 @@ public class CustomerViewCtrl {
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/summary";
     }
+    //TODO uniemożliwić składanie pustych zamówień
     @PostMapping("/makeOrder")
     public String makeOrder(@RequestParam String firstName, @RequestParam String lastName,
                             @RequestParam String address, @RequestParam String city, @RequestParam String postalCode,
@@ -120,7 +129,8 @@ public class CustomerViewCtrl {
         for(Long id : this.sessionCart.getBicyclesIDs()){
             this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
         }
-        redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone.");
+        this.sessionCart.clearCart();
+        redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
         return "redirect:/store";
     }
     @PostMapping("/addToCart")
