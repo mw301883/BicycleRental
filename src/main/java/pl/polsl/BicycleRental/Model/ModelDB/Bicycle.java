@@ -40,6 +40,7 @@ public class Bicycle {
         this.rentStartDate = null;
         this.rentEndDate = null;
     }
+    //TODO dopracować tak aby można rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany.
     public boolean isRented() {
         return rentStartDate != null && rentEndDate != null;
     }

@@ -1,5 +1,6 @@
 package pl.polsl.BicycleRental.Controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 //W kontrolerach wyświetlamy strony HTML, metody z atnotacją @GetMapping po prostu wyświetlają stronę a z kolei
 //metody z adnotacjami @PostMapping pobierają dane z formularzy czyli z <form></form>, backend będziemy łączyli poprzez Thymleaf
@@ -40,9 +42,16 @@ public class CustomerViewCtrl {
         this.orderServ = orderServ;
         this.sessionCart = new Cart();
     }
+    //TODO zablokować wyświetlanie rowerów, które są w koszyku, lub jakoś to wykrywać żeby umożlić blokadę na froncie, np dodać nową kolumnę do tabeli Bicycle
     @GetMapping("/store")
-    public String mainPage(Model model){
-        model.addAttribute("bicycles", this.bicycleServ.findAll());
+    public String mainPage(Model model/*, HttpSession session*/){
+//        List<Bicycle> bicycles = (List<Bicycle>) session.getAttribute("bicycles");
+//        if (bicycles != null) {
+//            model.addAttribute("bicycles", bicycles);
+//        } else {
+//            model.addAttribute("bicycles", this.bicycleServ.findAll(this.sessionCart));
+//        }
+        model.addAttribute("bicycles", this.bicycleServ.findAll(this.sessionCart));
         model.addAttribute("cartSize",this.sessionCart.getCartSize());
         return "CustomerView/index";
     }
@@ -78,6 +87,7 @@ public class CustomerViewCtrl {
     }
     //TODO zaimplementować promocję
     //TODO zaimplementować walidację braku podania daty podczas wchodzenia na stronę cart
+    //TODO naprawić wyświetlanie ceny gdy wszystko zostanie usunięte z koszyka
     @GetMapping("/cart")
     public String cartPage(Model model, RedirectAttributes redirectAttributes){
 //        if(this.sessionCart.getBeginRent().equals(null) || this.sessionCart.getEndRent().equals(null)){
@@ -86,21 +96,20 @@ public class CustomerViewCtrl {
 //        }
         ArrayList<Long> bicycleIDs = new ArrayList<>();
         BigDecimal price = new BigDecimal(0);
-
-        for(Bicycle bicycle : this.sessionCart.getBicyclesInCart()){
-            bicycleIDs.add(bicycle.getId());
-            price = price.add(bicycle.getPricePerDay());
-        }
         long differenceDays = 0;
         if (this.sessionCart.getBeginRent() != null && this.sessionCart.getEndRent() != null) {
             long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
             differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
         }
-        if(differenceDays != 0){
-            this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
-        }
-        else{
-            this.sessionCart.setPrice(price);
+        for(Bicycle bicycle : this.sessionCart.getBicyclesInCart()){
+            price = price.add(bicycle.getPricePerDay());
+            if(differenceDays != 0){
+                this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
+            }
+            else{
+                this.sessionCart.setPrice(price);
+            }
+            bicycleIDs.add(bicycle.getId());
         }
         this.sessionCart.setBicyclesIDs(bicycleIDs);
         model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
@@ -109,8 +118,9 @@ public class CustomerViewCtrl {
         return "CustomerView/cart";
     }
     @PostMapping("/removeFromCart")
-    public String removeFromCart(@RequestParam int index){
+    public String removeFromCart(@RequestParam int index/*, HttpSession session*/){
         this.sessionCart.removeBicycleFromCart(index);
+        //session.setAttribute("bicycles", this.bicycleServ.findAll(this.sessionCart));
         return "redirect:/cart";
     }
     @GetMapping("/summary")
@@ -134,11 +144,12 @@ public class CustomerViewCtrl {
         return "redirect:/store";
     }
     @PostMapping("/addToCart")
-    public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes){
+    public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes/*, HttpSession session*/){
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         if (bicycle != null) {
             this.sessionCart.addBicycleToCart(bicycle);
             redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
+            //session.setAttribute("bicycles", this.bicycleServ.findAll(this.sessionCart));
         }
         return "redirect:/store";
     }
