@@ -12,8 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminViewCtrl {
     //TODO
-    @GetMapping()
-    public String mainAdminPage(){
-        return "AdminView/AdminPageDemo";
+    @GetMapping
+    public String bicyclesPanelPage(){
+        return "AdminView/bicyclesPanel";
+    }
+    @GetMapping("/orders")
+    public String ordersPanelPage(){
+        return "AdminView/ordersPanel";
+    }
+    @GetMapping("/opinions")
+    public String opinionsPanelPage(){
+        return "AdminView/opinionsPanel";
     }
 }

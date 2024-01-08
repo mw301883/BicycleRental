@@ -51,7 +51,7 @@ public class ScurityConf {
         http
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/admin")
                 .and()
                 .csrf().disable()
                 .headers().frameOptions().disable();

@@ -9,7 +9,6 @@ import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.Repository.AdminAccountRepo;
 import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
 
-import java.math.BigDecimal;
 import java.util.List;
 //Pomocnicza klasa służąca do inicjalizacji bazy danych
 @Configuration

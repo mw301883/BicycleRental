@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wypożyczalnia - Panel Admina</title>
+</head>
+
+<div>
+    <a href="/admin">
+        <button>Rowery</button>
+    </a>
+    <a href="/admin/orders">
+        <button>Zamówienia</button>
+    </a>
+    <a href="/admin/opinions">
+        <button>Opinie</button>
+    </a>
+    <a href="/logout">
+        <button>Wyloguj</button>
+    </a>
+</div>
+
+<body>
+
+<h1>Panel Admina - Zarządzanie Rowerami</h1>
+
+<form method="post" action="twoj_plik_obslugujacy_formularz.php">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nazwa</th>
+            <th>Cena (PLN)</th>
+            <th>Dostępność</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Rower A</td>
+            <td><input type='text' name='cena[1]' value='20.00'></td>
+            <td><input type='checkbox' name='dostepnosc[1]' checked></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Rower B</td>
+            <td><input type='text' name='cena[2]' value='15.00'></td>
+            <td><input type='checkbox' name='dostepnosc[2]'></td>
+        </tr>
+        <!-- Dodaj kolejne wiersze dla kolejnych rowerów -->
+    </table>
+    <br>
+    <input type="submit" value="Zapisz zmiany">
+</form>
+
+</body>
+
+</html>
