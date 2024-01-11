@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wypożyczalnia - Panel Admina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<div>
+    <a href="/admin">
+        <button>Rowery</button>
+    </a>
+    <a href="/admin/orders">
+        <button>Zamówienia</button>
+    </a>
+    <a href="/admin/opinions">
+        <button>Opinie</button>
+    </a>
+    <a href="/logout">
+        <button>Wyloguj</button>
+    </a>
+</div>
+
+<h1>Panel Admina - Dodaj rower do floty</h1>
+
+<form th:action="@{/admin/addBicycle}" method="post">
+    <label for="name">Nazwa roweru:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="type">Typ roweru:</label>
+    <input type="text" id="type" name="type" required><br>
+
+    <label for="photoURL">URL zdjęcia:</label>
+    <input type="text" id="photoURL" name="photoURL" required><br>
+
+    <label for="pricePerDay">Cena za dzień:</label>
+    <input type="number" step="0.01" id="pricePerDay" name="pricePerDay" required><br>
+
+    <button type="submit">Dodaj rower</button>
+</form>
+
+</body>
+
+</html>

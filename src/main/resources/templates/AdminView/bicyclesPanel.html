@@ -5,7 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wypożyczalnia - Panel Admina</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-top: 6px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
+
+<body>
 
 <div>
     <a href="/admin">
@@ -22,36 +94,47 @@
     </a>
 </div>
 
-<body>
-
 <h1>Panel Admina - Zarządzanie Rowerami</h1>
 
-<form method="post" action="twoj_plik_obslugujacy_formularz.php">
+<form method="post" action="/admin/modifyBicycle" id="bicycleForm">
     <table>
         <tr>
             <th>ID</th>
+            <th>Zdjęcie</th>
             <th>Nazwa</th>
+            <th>Typ</th>
             <th>Cena (PLN)</th>
-            <th>Dostępność</th>
+            <th>Uszkodzony</th>
+            <th>Zapisz</th>
+            <th>Usuń</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>Rower A</td>
-            <td><input type='text' name='cena[1]' value='20.00'></td>
-            <td><input type='checkbox' name='dostepnosc[1]' checked></td>
+        <tr th:each="bicycle : ${bicycles}">
+            <td th:text="${bicycle.id}"></td>
+            <td><img th:src="@{${bicycle.photoURL}}" alt="Bicycle Photo" style="max-width: 100px;"></td>
+            <td th:text="${bicycle.name}"></td>
+            <td th:text="${bicycle.type}"></td>
+            <td><input type='text' name='pricePerDay' th:value="${bicycle.pricePerDay}"></td>
+            <td><input type='checkbox' name='disable' th:checked="${bicycle.disable}"></td>
+            <td>
+                <button type="button" onclick="setAction('save')">Zapisz</button>
+            </td>
+            <td>
+                <button type="button" onclick="setAction('delete')">Usuń</button>
+            </td>
         </tr>
-        <tr>
-            <td>2</td>
-            <td>Rower B</td>
-            <td><input type='text' name='cena[2]' value='15.00'></td>
-            <td><input type='checkbox' name='dostepnosc[2]'></td>
-        </tr>
-        <!-- Dodaj kolejne wiersze dla kolejnych rowerów -->
     </table>
-    <br>
-    <input type="submit" value="Zapisz zmiany">
+    <input type="hidden" name="action" id="actionInput" value="">
+    <input type="hidden" name="bicycleId" id="bicycleIdInput" value="">
+    <button type="submit">Submit</button>
 </form>
+
+<div>
+    <a href="/admin/addBicycleForm">
+        <button>Dodaj rower</button>
+    </a>
+</div>
 
 </body>
 
 </html>
+

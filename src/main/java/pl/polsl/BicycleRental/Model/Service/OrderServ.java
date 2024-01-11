@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
 import pl.polsl.BicycleRental.Model.Repository.OrderRepo;
 
+import java.util.List;
+
 //W klasach z adnotacją @Service piszemy całą logikę zarządzania DB na przykład operacje CRUD czy inne zarządanie danymi.
 @Service
 public class OrderServ {
@@ -15,5 +17,8 @@ public class OrderServ {
     }
     public void makeOrder(Order order){
         this.orderRepo.save(order);
+    }
+    public List<Order> findAll(){
+        return this.orderRepo.findAll();
     }
 }
