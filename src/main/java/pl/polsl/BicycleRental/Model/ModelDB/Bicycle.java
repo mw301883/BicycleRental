@@ -34,7 +34,8 @@ public class Bicycle {
     private Calendar rentEndDate;
     @Column(name = "Disable")
     private Boolean disable;
-    public Bicycle(String name, String type, String photoURL, double pricePerDay){
+
+    public Bicycle(String name, String type, String photoURL, double pricePerDay) {
         this.name = name;
         this.type = type;
         this.photoURL = photoURL;
@@ -43,10 +44,12 @@ public class Bicycle {
         this.rentEndDate = null;
         this.disable = false;
     }
+
     //TODO dopracować tak aby można rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany.
     public boolean isRented() {
         return rentStartDate != null && rentEndDate != null;
     }
+
     public void rentBicycle(Calendar start, Calendar end) {
         this.rentStartDate = start;
         this.rentEndDate = end;

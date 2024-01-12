@@ -97,6 +97,27 @@ public class AdminViewCtrl {
         return "AdminView/ordersPanel";
     }
 
+    @PostMapping("/addPenalty")
+    public String addPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes){
+        this.orderServ.addPenaltyById(id);
+        redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została naliczona kara za opóźnione oddanie.");
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/cancelPenalty")
+    public String cancelPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes){
+        this.orderServ.cancelPenaltyById(id);
+        redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została odlicznona kara za opóźnione oddanie.");
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/deleteOrder")
+    public String deleteOrder(@RequestParam Long id, RedirectAttributes redirectAttributes){
+        this.orderServ.deleteOrder(id);
+        redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało usunięte.");
+        return "redirect:/admin/orders";
+    }
+
     @GetMapping("/password")
     public String changePasswordPanelPage() {
         return "AdminView/changePasswordPanel";

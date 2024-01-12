@@ -29,31 +29,63 @@
 
 <h1>Panel Admina - Zarządzanie Rowerami</h1>
 
-<form method="post" action="twoj_plik_obslugujacy_formularz.php">
-    <table>
+<table>
+    <thead>
         <tr>
             <th>ID</th>
-            <th>Nazwa</th>
-            <th>Cena (PLN)</th>
-            <th>Dostępność</th>
+            <th>Wypożyczone rowery</th>
+            <th>Data rozpoczęcia wynajmu</th>
+            <th>Data zwrotu</th>
+            <th>Imię klienta</th>
+            <th>Nazwisko klienta</th>
+            <th>Adres zamieszkania</th>
+            <th>Miasto</th>
+            <th>Kod pocztowy</th>
+            <th>Email</th>
+            <th>Numer telefonu</th>
+            <th>Do zapłaty</th>
+            <th>Dopłata za późniejszy zwrot</th>
+            <th>Całkowita zapłata</th>
+            <th>Nalicz kary</th>
+            <th>Nalicz odlicz kary</th>
+            <th>Usuń</th>
         </tr>
-        <tr>
-            <td>1</td>
-            <td>Rower A</td>
-            <td><input type='text' name='cena[1]' value='20.00'></td>
-            <td><input type='checkbox' name='dostepnosc[1]' checked></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Rower B</td>
-            <td><input type='text' name='cena[2]' value='15.00'></td>
-            <td><input type='checkbox' name='dostepnosc[2]'></td>
-        </tr>
-        <!-- Dodaj kolejne wiersze dla kolejnych rowerów -->
-    </table>
-    <br>
-    <input type="submit" value="Zapisz zmiany">
-</form>
+    </thead>
+    <tr th:each="order : ${orders}">
+        <form method="post" action="/admin/addPenalty" id="orderFormAddPenalty">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order.bicycles}"></td>
+            <td th:text="${#dates.format(order.beginRent, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#dates.format(order.endRent, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${order.customerFirstName}"></td>
+            <td th:text="${order.customerLastName}"></td>
+            <td th:text="${order.customerAddress}"></td>
+            <td th:text="${order.customerCity}"></td>
+            <td th:text="${order.customerPostalCode}"></td>
+            <td th:text="${order.customerEmail}"></td>
+            <td th:text="${order.customerPhoneNum}"></td>
+            <td th:text="${order.price}"></td>
+            <td th:text="${order.penaltyPrice}"></td>
+            <td th:text="${order.totalPrice}"></td>
+            <input type="hidden" name="id" id="orderIdInput1" th:value="${order.id}">
+            <td>
+                <button type="submit">Nalicz</button>
+            </td>
+        </form>
+        <form method="post" action="/admin/cancelPenalty" id="orderFormCancelPenalty">
+            <input type="hidden" name="id" id="orderIdInput2" th:value="${order.id}">
+            <td>
+                <button type="submit">Odlicz</button>
+            </td>
+        </form>
+        <form method="post" action="/admin/deleteOrder" id="orderFormDelete">
+            <input type="hidden" name="id" id="orderIdInput3" th:value="${order.id}">
+            <td>
+                <button type="submit">Usuń</button>
+            </td>
+        </form>
+    </tr>
+</table>
 
 </body>
 

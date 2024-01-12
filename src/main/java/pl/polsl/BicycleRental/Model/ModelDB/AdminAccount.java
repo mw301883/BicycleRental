@@ -23,7 +23,8 @@ public class AdminAccount {
     private String password;
     private String Authority;
     private boolean enabled;
-    public AdminAccount(String Username, String Password){
+
+    public AdminAccount(String Username, String Password) {
         this.login = Username;
         this.password = Password;
         this.Authority = "ADMIN";

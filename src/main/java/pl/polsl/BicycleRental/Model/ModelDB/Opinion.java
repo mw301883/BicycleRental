@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 //W pakietach model tworzymy encje do bazy danych, konfiguracja DB jest aktualnie ustawiona na "update" tzn, że mozna
 //ją tylko  modyfikować (to można zmienic w application properties np na create wtedy gdy odpalimy projekt baza zostanie wyczyszczona
 // przy kazdym odpaleniu apki).
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table (name = "Opinion")
+@Table(name = "Opinion")
 public class Opinion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

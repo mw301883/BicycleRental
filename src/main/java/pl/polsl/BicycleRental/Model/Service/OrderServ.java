@@ -6,6 +6,7 @@ import pl.polsl.BicycleRental.Model.ModelDB.Order;
 import pl.polsl.BicycleRental.Model.Repository.OrderRepo;
 
 import java.util.List;
+import java.util.Optional;
 
 //W klasach z adnotacją @Service piszemy całą logikę zarządzania DB na przykład operacje CRUD czy inne zarządanie danymi.
 @Service
@@ -20,5 +21,19 @@ public class OrderServ {
     }
     public List<Order> findAll(){
         return this.orderRepo.findAll();
+    }
+    public void deleteOrder(Long id){
+        this.orderRepo.deleteById(id);
+    }
+    public void addPenaltyById(Long id){
+        Optional<Order> order = this.orderRepo.findById(id);
+        order.get().addPenalty();
+        this.orderRepo.save(order.get());
+    }
+
+    public void cancelPenaltyById(Long id){
+        Optional<Order> order = this.orderRepo.findById(id);
+        order.get().cancelPenalty();
+        this.orderRepo.save(order.get());
     }
 }

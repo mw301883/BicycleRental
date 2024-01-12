@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
+    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="Admin Panel - adding opinion and order panels with  full functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/AdminAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/AdminAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Opinion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Opinion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,6 +112,15 @@
       <option name="presentableId" value="Default" />
       <updated>1700228606389</updated>
     </task>
+    <task id="LOCAL-00001" summary="Admin Panel - finalizing bicycle panel functions, adding password change option, adding opinion panel functionality - removing opinions">
+      <option name="closed" value="true" />
+      <created>1705055233138</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705055233138</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -126,6 +134,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Admin Panel - finalizing bicycle panel functions, adding password change option, adding opinion panel functionality - removing opinions" />
+    <MESSAGE value="Admin Panel - adding opinion and order panels with  full functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin Panel - adding opinion and order panels with  full functionality" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -136,8 +149,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="11" />
+          <line>101</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
