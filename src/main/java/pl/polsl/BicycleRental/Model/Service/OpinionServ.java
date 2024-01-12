@@ -21,4 +21,7 @@ public class OpinionServ {
     public List<Opinion> findAll(){
         return this.opinionRepo.findAll();
     }
+    public void deleteOpinion(Long id){
+        this.opinionRepo.deleteById(id);
+    }
 }

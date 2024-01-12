@@ -93,7 +93,7 @@
     <a href="/admin/opinions">
         <button>Opinie</button>
     </a>
-    <a href="/admin/changePassword">
+    <a href="/admin/password">
         <button>Zmień hasło</button>
     </a>
     <a href="/logout">
@@ -104,34 +104,43 @@
 <h1>Panel Admina - Zarządzanie Rowerami</h1>
 
 <table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Zdjęcie</th>
+        <th>Nazwa</th>
+        <th>Typ</th>
+        <th>Cena za dzień wypożyczenia</th>
+        <th>Uszkodzony</th>
+        <th>Modyfikuj</th>
+        <th>Usuń</th>
+    </tr>
+    </thead>
     <tr th:each="bicycle : ${bicycles}">
-        <form method="post" action="/admin/modifyBicycle" id="bicycleForm">
+        <form method="post" action="/admin/modifyBicycle" id="bicycleFormSave">
             <td th:text="${bicycle.id}"></td>
             <td><img th:src="@{${bicycle.photoURL}}" alt="Bicycle Photo" style="max-width: 100px;"></td>
             <td th:text="${bicycle.name}"></td>
             <td th:text="${bicycle.type}"></td>
             <td><input type='text' name='pricePerDay' id="price" th:value="${bicycle.pricePerDay}"></td>
             <td><input type='checkbox' name='disable' th:checked="${bicycle.disable}"></td>
-            <input type="hidden" name="bicycleId" id="bicycleIdInput" th:value="${bicycle.id}">
-            <input type="hidden" name="bicycleId" id="disableInput" th:value="${bicycle.disable}">
-            <input type="hidden" name="bicycleId" id="priceInput" th:value="${bicycle.pricePerDay}">
-            <input type="hidden" name="action" id="actionInput" value="">
+            <input type="hidden" name="bicycleId" id="bicycleIdInput1" th:value="${bicycle.id}">
+            <input type="hidden" name="bicycleId" id="disableInput1" th:value="${bicycle.disable}">
+            <input type="hidden" name="bicycleId" id="priceInput1" th:value="${bicycle.pricePerDay}">
+            <input type="hidden" name="action" id="actionInput1" value="save">
             <td>
-                <button type="button" onclick="setAction('save')">Zapisz</button>
+                <button type="submit">Zapisz</button>
             </td>
+        </form>
+        <form method="post" action="/admin/modifyBicycle" id="bicycleFormDelete">
+            <input type="hidden" name="bicycleId" id="bicycleIdInput2" th:value="${bicycle.id}">
+            <input type="hidden" name="action" id="actionInput2" value="delete">
             <td>
-                <button type="button" onclick="setAction('delete')">Usuń</button>
+                <button type="submit">Usuń</button>
             </td>
         </form>
     </tr>
 </table>
-
-<script>
-    function setAction(action) {
-        document.getElementById('actionInput').value = action;
-        document.getElementById('bicycleForm').submit();
-    }
-</script>
 
 <div>
     <a href="/admin/addBicycleForm">

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
+import pl.polsl.BicycleRental.Model.Service.AdminAccountServ;
 import pl.polsl.BicycleRental.Model.Service.BicycleServ;
 import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 import pl.polsl.BicycleRental.Model.Service.OrderServ;
@@ -26,15 +27,16 @@ public class AdminViewCtrl {
     BicycleServ bicycleServ;
     OpinionServ opinionServ;
     OrderServ orderServ;
+    AdminAccountServ adminAccountServ;
 
     @Autowired
-    AdminViewCtrl(BicycleServ bicycleServ, OpinionServ opinionServ, OrderServ orderServ) {
+    AdminViewCtrl(BicycleServ bicycleServ, OpinionServ opinionServ, OrderServ orderServ, AdminAccountServ adminAccountServ) {
         this.bicycleServ = bicycleServ;
         this.opinionServ = opinionServ;
         this.orderServ = orderServ;
+        this.adminAccountServ = adminAccountServ;
     }
 
-    //TODO
     @GetMapping
     public String bicyclesPanelPage(Model model) {
         model.addAttribute("bicycles", bicycleServ.findAll());
@@ -49,7 +51,7 @@ public class AdminViewCtrl {
     @PostMapping("/addBicycle")
     public String addBicycle(@RequestParam String name, @RequestParam String type, @RequestParam String photoURL,
                              @RequestParam String pricePerDay, RedirectAttributes redirectAttributes) {
-        if(photoURL.length() > 255){
+        if (photoURL.length() > 255) {
             redirectAttributes.addFlashAttribute("error", "Podano zbyt długi adres URL zdjęcia roweru - spróbuj ponownie.");
             return "redirect:/admin/addBicycleForm";
         }
@@ -57,7 +59,7 @@ public class AdminViewCtrl {
         redirectAttributes.addFlashAttribute("message", "Nowy rower został dodany do floty.");
         return "redirect:/admin";
     }
-    //TODO naprawić funkcjonalność - źle wysyłane dane z formularza
+
     @PostMapping("/modifyBicycle")
     public String modifyBicycle(@RequestParam Map<String, String> formData, RedirectAttributes redirectAttributes) {
         if ("save".equals(formData.get("action"))) {
@@ -67,11 +69,11 @@ public class AdminViewCtrl {
                     formData.get("disable") != null && formData.get("disable").equals("on") ? true : false
             );
             redirectAttributes.addFlashAttribute("message", "Atrybuty roweru o ID : " + formData.get("bicycleId")
-                    + " zostały pomyślnie zaktualizowane." );
+                    + " zostały pomyślnie zaktualizowane.");
         } else if ("delete".equals(formData.get("action"))) {
             this.bicycleServ.deleteBicycle(Long.parseLong(formData.get("bicycleId")));
             redirectAttributes.addFlashAttribute("message", "Rower o ID : " + formData.get("bicycleId")
-                    + " został usunięty z floty." );
+                    + " został usunięty z floty.");
         }
         return "redirect:/admin";
     }
@@ -82,14 +84,32 @@ public class AdminViewCtrl {
         return "AdminView/opinionsPanel";
     }
 
+    @PostMapping("/deleteOpinion")
+    public String deleteOpinion(@RequestParam Long id, RedirectAttributes redirectAttributes){
+        this.opinionServ.deleteOpinion(id);
+        redirectAttributes.addFlashAttribute("message", "Opinia o ID : " + id + " została usunięta.");
+        return "redirect:/admin/opinions";
+    }
+
     @GetMapping("/orders")
     public String ordersPanelPage(Model model) {
         model.addAttribute("orders", orderServ.findAll());
         return "AdminView/ordersPanel";
     }
 
-    @GetMapping("/changePassword")
-    public String changePasswordPanelPage(){
+    @GetMapping("/password")
+    public String changePasswordPanelPage() {
         return "AdminView/changePasswordPanel";
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestParam String password, @RequestParam String passwordConfirm, RedirectAttributes redirectAttributes){
+        if(!password.equals(passwordConfirm)){
+            redirectAttributes.addFlashAttribute("error", "Podane hasła są różne. Spróbuj ponownie.");
+            return "redirect:/admin/password";
+        }
+        this.adminAccountServ.changePassword(password);
+        redirectAttributes.addFlashAttribute("message", "Hasło zostało zmienione.");
+        return "redirect:/admin";
     }
 }

@@ -5,14 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,8 +136,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="9" />
+          <line>88</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
