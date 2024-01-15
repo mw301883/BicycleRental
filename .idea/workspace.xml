@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/addBicyclePanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/bicyclesPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/opinionsPanel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/ordersPanel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Bicycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +27,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="development" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -52,6 +53,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2YJ0vDDeWUxo6GRPXcWDrbIVoPh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -63,12 +65,13 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "PKraska",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Michał/OneDrive/Pulpit",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -129,11 +132,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java</url>
           <line>88</line>

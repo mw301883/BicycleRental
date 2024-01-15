@@ -28,8 +28,10 @@ public class Bicycle {
     private String photoURL;
     @Column(name = "pricePerDay")
     private BigDecimal pricePerDay;
+    @Getter
     @Column(name = "rentStartDate")
     private Calendar rentStartDate;
+    @Getter
     @Column(name = "rentEndDate")
     private Calendar rentEndDate;
     @Column(name = "Disable")
@@ -43,7 +45,10 @@ public class Bicycle {
         this.rentEndDate = null;
         this.disable = false;
     }
-    //TODO dopracować tak aby można rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany.
+    public boolean isDisable() {
+        return disable;
+    }
+    //TODO dopracować tak aby rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany.
     public boolean isRented() {
         return rentStartDate != null && rentEndDate != null;
     }
@@ -51,5 +56,25 @@ public class Bicycle {
         this.rentStartDate = start;
         this.rentEndDate = end;
     }
+    public boolean isDateRangeOverlap(Calendar start1, Calendar end1, Calendar start2, Calendar end2) {
+        try {
+            if (start1 != null && end1 != null && start2 != null && end2 != null) {
+                // Sprawdź czy daty nakładają się tylko gdy obie pary dat nie są nullami
+                return (start1.before(end2) && end1.after(start2)) ||  // Normalny przypadek
+                        (start1.equals(start2) || end1.equals(end2));   // Przypadek daty równej
+
+            } else {
+                // Jeśli chociaż jedna para dat jest null, nie zwracaj nakładającego się zakresu dat
+                return false;
+            }
+        } catch (NullPointerException e) {
+            // Złapano NullPointerException, zwróć false
+            return false;
+        }
+    }
+
+
+
+
 
 }
