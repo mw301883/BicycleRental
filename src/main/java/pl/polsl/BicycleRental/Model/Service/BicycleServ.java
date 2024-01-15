@@ -1,5 +1,6 @@
 package pl.polsl.BicycleRental.Model.Service;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.BicycleRental.Model.Cart;
@@ -17,9 +18,22 @@ import java.util.stream.Collectors;
 @Service
 public class BicycleServ {
     private final BicycleRepo bicycleRepo;
+    @Getter
+    private List<Long> cartBicycleIdList = new ArrayList<>();
     @Autowired
     BicycleServ(BicycleRepo bicycleRepo){
         this.bicycleRepo = bicycleRepo;
+    }
+
+    public void addToCartBicycleIdList(Long value) {
+        cartBicycleIdList.add(value);
+    }
+    public void removeFromCartBicycleIdList(Long value) {
+        cartBicycleIdList.remove(value);
+    }
+
+    public void clearCartBicycleIdList() {
+        cartBicycleIdList.clear();
     }
     public List<Bicycle> findAll(){
         return this.bicycleRepo.findAll()
@@ -78,4 +92,16 @@ public class BicycleServ {
     public void deleteBicycle(Long id){
         this.bicycleRepo.deleteById(id);
     }
+    public void setDisableBicycle(Long bicycleId) {
+        Optional<Bicycle> optionalBicycle = bicycleRepo.findById(bicycleId);
+
+        if (optionalBicycle.isPresent()) {
+            Bicycle bicycle = optionalBicycle.get();
+            bicycle.setDisable(true);
+            bicycleRepo.save(bicycle);
+        } else {
+            // Obsługa błędu, np. rzucenie wyjątku lub dodanie logiki obsługi błędu
+        }
+    }
+
 }
