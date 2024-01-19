@@ -47,18 +47,24 @@ public class DbInit implements CommandLineRunner {
                 new Opinion("opinia", "test@test.com", "sprawa", "Treść opinii."),
                 new Opinion("opinia", "test@test.com", "sprawa", "Treść opinii.")
         ));
-        Calendar begin = Calendar.getInstance();
-        begin.set(2024, Calendar.JANUARY, 8, 14, 30, 0);
-        Calendar end = Calendar.getInstance();
-        begin.set(2024, Calendar.JANUARY, 10, 14, 30, 0);
+        Calendar beginOne = Calendar.getInstance();
+        beginOne.set(2024, Calendar.JANUARY, 8, 14, 30, 0);
+        Calendar endOne = Calendar.getInstance();
+        endOne.set(2024, Calendar.JANUARY, 10, 14, 30, 0);
+        Calendar beginTwo = Calendar.getInstance();
+        beginTwo.set(2024, Calendar.JANUARY, 8, 14, 30, 0);
+        Calendar endTwo = Calendar.getInstance();
+        //endTwo.set(2024, Calendar.JANUARY, 12, 14, 30, 0);
         ArrayList<Long> list = new ArrayList<>();
         list.add(1L);
         list.add(2L);
         list.add(3L);
         list.add(4L);
         this.orderRepo.saveAll(List.of(
-                new Order(list, begin, end, "Adrian", "Dudu", "ul. Drogowa 3", "Warszawa",
-                        "50-200", "dudu@test.com", "500400355", new BigDecimal(170))
+                new Order(list, beginOne, endOne, "Adrian", "Dudu", "ul. Drogowa 3", "Warszawa",
+                        "50-200", "dudu@test.com", "500400355", new BigDecimal(170)),
+                new Order(list, beginTwo, endTwo, "Jan", "Nowak", "ul. Drogowa 8", "Poznań",
+                        "50-200", "dudu@test.com", "500400355", new BigDecimal(200))
         ));
         String encodedPassword = passwordEncoder.encode("password");
         this.adminAccountRepo.save(new AdminAccount("admin", encodedPassword));

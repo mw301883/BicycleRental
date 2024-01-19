@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
+import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
 import pl.polsl.BicycleRental.Model.Service.AdminAccountServ;
 import pl.polsl.BicycleRental.Model.Service.BicycleServ;
 import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 import pl.polsl.BicycleRental.Model.Service.OrderServ;
+import pl.polsl.BicycleRental.Model.ModelDB.Order;
 
-import java.math.BigDecimal;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //W kontrolerach wyświetlamy strony HTML, metody z atnotacją @GetMapping po prostu wyświetlają stronę a z kolei
 //metody z adnotacjami @PostMapping pobierają dane z formularzy czyli z <form></form>, backend będziemy łączyli poprzez Thymleaf
@@ -39,7 +43,10 @@ public class AdminViewCtrl {
 
     @GetMapping
     public String bicyclesPanelPage(Model model) {
-        model.addAttribute("bicycles", bicycleServ.findAll());
+        model.addAttribute("bicycles", bicycleServ.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Bicycle::getId))
+                .collect(Collectors.toList()));
         return "AdminView/bicyclesPanel";
     }
 
@@ -80,12 +87,15 @@ public class AdminViewCtrl {
 
     @GetMapping("/opinions")
     public String opinionsPanelPage(Model model) {
-        model.addAttribute("opinions", opinionServ.findAll());
+        model.addAttribute("opinions", opinionServ.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Opinion::getId))
+                .collect(Collectors.toList()));
         return "AdminView/opinionsPanel";
     }
 
     @PostMapping("/deleteOpinion")
-    public String deleteOpinion(@RequestParam Long id, RedirectAttributes redirectAttributes){
+    public String deleteOpinion(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         this.opinionServ.deleteOpinion(id);
         redirectAttributes.addFlashAttribute("message", "Opinia o ID : " + id + " została usunięta.");
         return "redirect:/admin/opinions";
@@ -93,26 +103,30 @@ public class AdminViewCtrl {
 
     @GetMapping("/orders")
     public String ordersPanelPage(Model model) {
-        model.addAttribute("orders", orderServ.findAll());
+        orderServ.updateOrdersPnalty();
+        model.addAttribute("orders", orderServ.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Order::getId))
+                .collect(Collectors.toList()));
         return "AdminView/ordersPanel";
     }
 
     @PostMapping("/addPenalty")
-    public String addPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes){
+    public String addPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         this.orderServ.addPenaltyById(id);
         redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została naliczona kara za opóźnione oddanie.");
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/cancelPenalty")
-    public String cancelPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes){
+    public String cancelPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         this.orderServ.cancelPenaltyById(id);
         redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została odlicznona kara za opóźnione oddanie.");
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/deleteOrder")
-    public String deleteOrder(@RequestParam Long id, RedirectAttributes redirectAttributes){
+    public String deleteOrder(@RequestParam Long id, RedirectAttributes redirectAttributes) {
         this.orderServ.deleteOrder(id);
         redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało usunięte.");
         return "redirect:/admin/orders";
@@ -124,8 +138,8 @@ public class AdminViewCtrl {
     }
 
     @PostMapping("/changePassword")
-    public String changePassword(@RequestParam String password, @RequestParam String passwordConfirm, RedirectAttributes redirectAttributes){
-        if(!password.equals(passwordConfirm)){
+    public String changePassword(@RequestParam String password, @RequestParam String passwordConfirm, RedirectAttributes redirectAttributes) {
+        if (!password.equals(passwordConfirm)) {
             redirectAttributes.addFlashAttribute("error", "Podane hasła są różne. Spróbuj ponownie.");
             return "redirect:/admin/password";
         }
