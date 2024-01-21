@@ -130,8 +130,8 @@ public class CustomerViewCtrl {
     @PostMapping("/removeFromCart")
     public String removeFromCart(@RequestParam int index/*, HttpSession session*/){
         this.sessionCart.removeBicycleFromCart(index);
-        Long Id = (long) index;
-        this.bicycleServ.removeFromCartBicycleIdList(Id);
+        //Long Id = (long) index;
+        //this.bicycleServ.removeFromCartBicycleIdList(Id);
         //session.setAttribute("bicycles", this.bicycleServ.findAll(this.sessionCart));
         return "redirect:/cart";
     }
@@ -158,10 +158,10 @@ public class CustomerViewCtrl {
         for (Long id : this.sessionCart.getBicyclesIDs()) {
             this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
         }
-        for (long id :this.bicycleServ.getCartBicycleIdList()){
-            this.bicycleServ.setDisableBicycle(id);
-        }
-        this.bicycleServ.clearCartBicycleIdList();
+        //for (long id :this.bicycleServ.getCartBicycleIdList()){
+        //    this.bicycleServ.setDisableBicycle(id);
+        //}
+        //this.bicycleServ.clearCartBicycleIdList();
         this.sessionCart.clearCart();
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
         return "redirect:/store";
@@ -179,7 +179,7 @@ public class CustomerViewCtrl {
         if (start != null && end != null) {
             if (!bicycle.isDateRangeOverlap(start, end, databaseStart, databaseEnd)) {
                 this.sessionCart.addBicycleToCart(bicycle);
-                this.bicycleServ.addToCartBicycleIdList(LongId);
+                //this.bicycleServ.addToCartBicycleIdList(LongId);
                 redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
             } else {
                 redirectAttributes.addFlashAttribute("error", "Nie można dodać roweru do koszyka. Brak daty wynajmu.");
