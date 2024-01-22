@@ -42,24 +42,9 @@ public class BicycleServ {
                 .collect(Collectors.toList());
     }
     public List<Bicycle> findAll(Cart cart){
-//        List<Bicycle> bicycles = this.bicycleRepo.findAll()
-//                .stream()
-//                .filter(bicycle -> !bicycle.isRented())
-//                .filter(bicycle -> !cart.getBicyclesInCart().contains(bicycle))
-//                .collect(Collectors.toList());
-//        List<Bicycle> bicycles = this.bicycleRepo.findAll();
-//        List<Long> ids = new ArrayList<>();
-//        for(Bicycle bicycle : bicycles){
-//            if(cart.getBicyclesInCart().contains(bicycle)){
-//                ids.add(bicycle.getId());
-//            }
-//        }
-//        for(Long id : ids){
-//            bicycles.remove(id);
-//        }
         return this.bicycleRepo.findAll()
                 .stream()
-                .filter(bicycle -> !bicycle.isRented())
+                .filter(bicycle -> !bicycle.isRented() && !cart.getBicyclesIDs().contains(bicycle.getId()))
                 .collect(Collectors.toList());
     }
     public Bicycle getBicycleById(Long id) {

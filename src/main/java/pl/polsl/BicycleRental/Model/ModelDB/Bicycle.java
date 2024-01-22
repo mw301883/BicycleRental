@@ -49,7 +49,7 @@ public class Bicycle {
     public boolean isDisable() {
         return disable;
     }
-    //TODO dopracować tak aby rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany.
+    //TODO dopracować tak aby rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany. Dodać kolumne isAvaiable
     public boolean isRented() {
         return rentStartDate != null && rentEndDate != null;
     }

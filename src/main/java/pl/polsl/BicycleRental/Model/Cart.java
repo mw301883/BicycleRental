@@ -9,6 +9,7 @@ import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -26,16 +27,29 @@ public class Cart {
     private String customerEmail;
     private String customerPhoneNum;
     private BigDecimal price = BigDecimal.valueOf(0.0);
-    public int getCartSize(){
+
+    public int getCartSize() {
         return this.bicyclesInCart.size();
     }
-    public void addBicycleToCart(Bicycle bicycle){
+
+    public void addBicycleToCart(Bicycle bicycle) {
         this.bicyclesInCart.add(bicycle);
     }
-    public void removeBicycleFromCart(int index){
+
+    public void removeBicycleFromCart(int index) {
+        long millisecondsPerDay = 24 * 60 * 60 * 1000L;
+
+        BigDecimal rentalDurationInDays =
+                BigDecimal.valueOf((this.endRent.getTimeInMillis() - this.beginRent.getTimeInMillis()) / millisecondsPerDay);
+
+        BigDecimal bicyclePrice = this.bicyclesInCart.get(index).getPricePerDay();
+        BigDecimal totalPriceToRemove = bicyclePrice.multiply(rentalDurationInDays);
+
+        this.price = this.price.subtract(totalPriceToRemove);
         this.bicyclesInCart.remove(index);
     }
-    public void clearCart(){
+
+    public void clearCart() {
         this.bicyclesInCart.clear();
         this.beginRent = null;
         this.endRent = null;
