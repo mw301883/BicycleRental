@@ -47,6 +47,8 @@ public class Order {
     private BigDecimal penaltyPrice;
     @Column(name = "totalPrice")
     private BigDecimal totalPrice;
+    @Column(name = "isFinalized")
+    private Boolean isFinalized;
 
     public Order(ArrayList<Long> bicycles, Calendar beginRent, Calendar endRent, String customerFirstName, String customerLastName,
                  String customerAddress, String customerCity, String customerPostalCode, String customerEmail, String customerPhoneNum,
@@ -64,6 +66,7 @@ public class Order {
         this.price = price;
         this.penaltyPrice = new BigDecimal(0);
         this.totalPrice = price;
+        this.isFinalized = false;
     }
 
     public void addPenalty() {
@@ -73,4 +76,5 @@ public class Order {
     public void cancelPenalty() {
         this.totalPrice = this.price;
     }
+
 }

@@ -17,10 +17,9 @@ import pl.polsl.BicycleRental.Model.Service.OrderServ;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-//TODO dodać obwługę zwracania rowerów do oferty - panel zamówień, dodać guzik finalizuj, który wyzeruje daty wypożyczenia rowerów z zamówienia
+
 //W kontrolerach wyświetlamy strony HTML, metody z atnotacją @GetMapping po prostu wyświetlają stronę a z kolei
 //metody z adnotacjami @PostMapping pobierają dane z formularzy czyli z <form></form>, backend będziemy łączyli poprzez Thymleaf
 //pliki HTML powinny się znaleźć w folderze "templates/AdminView" - zrobiłem tam odpowiednie foldery, pliki CSS powinny się znaleźć w folderze static.CSS
@@ -113,20 +112,33 @@ public class AdminViewCtrl {
 
     @PostMapping("/addPenalty")
     public String addPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes) {
-        this.orderServ.addPenaltyById(id);
-        redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została naliczona kara za opóźnione oddanie.");
+        if(this.orderServ.getOrderById(id).getIsFinalized()){
+            redirectAttributes.addFlashAttribute("error", "Do zamówienia o ID : " + id + " zostało już sfinalizowane, nie można doliczyć kary.");
+        }
+        else{
+            this.orderServ.addPenaltyById(id);
+            redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została naliczona kara za opóźnione oddanie.");
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/cancelPenalty")
     public String cancelPenalty(@RequestParam Long id, RedirectAttributes redirectAttributes) {
-        this.orderServ.cancelPenaltyById(id);
-        redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została odlicznona kara za opóźnione oddanie.");
+        if(this.orderServ.getOrderById(id).getIsFinalized()){
+            redirectAttributes.addFlashAttribute("error", "Do zamówienia o ID : " + id + " zostało już sfinalizowane, nie można odliczyć kary.\"");
+        }
+        else{
+            this.orderServ.cancelPenaltyById(id);
+            redirectAttributes.addFlashAttribute("message", "Do zamówienia o ID : " + id + " została odlicznona kara za opóźnione oddanie.");
+        }
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/deleteOrder")
     public String deleteOrder(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+        if(!this.orderServ.getOrderById(id).getIsFinalized()){
+            this.orderServ.releaseOrderBicycles(this.orderServ.getOrderBicyclesById(id));
+        }
         this.orderServ.deleteOrder(id);
         redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało usunięte.");
         return "redirect:/admin/orders";
@@ -146,5 +158,13 @@ public class AdminViewCtrl {
         this.adminAccountServ.changePassword(password);
         redirectAttributes.addFlashAttribute("message", "Hasło zostało zmienione.");
         return "redirect:/admin";
+    }
+
+    @PostMapping("/finalizeOrder")
+    public String finalizeOrder(@RequestParam Long id, RedirectAttributes redirectAttributes){
+        this.orderServ.finalizeOrderById(id);
+        redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało zfinalizowane pomyślnie. Wypożyczone rowery zostały zwrócone do ofrety. Od tej pory nie można naliczać kar do zamówienia.");
+        this.orderServ.releaseOrderBicycles(this.orderServ.getOrderBicyclesById(id));
+        return "redirect:/admin/orders";
     }
 }

@@ -11,116 +11,126 @@
 
 <body>
 
-<div th:if="${message}" class="alert alert-success">
-    <p th:text="${message}"></p>
-</div>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="/admin">Panel Admina</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin">Rowery</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/orders">Zamówienia</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/opinions">Opinie</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/password">Zmień hasło</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Wyloguj</a>
-                </li>
-            </ul>
-        </div>
+    <div th:if="${message}" class="alert alert-success">
+        <p th:text="${message}"></p>
     </div>
-</nav>
-<!-- Header-->
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Panel Admina</h1>
-            <p class="lead fw-normal text-white-50 mb-0">Zarządzanie wypożyczeniami</p>
-        </div>
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
     </div>
-</header>
-<div class="container-fluid mt-4 text-center">
 
-    <h1 class="my-4">Wypożyczenia</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/admin">Panel Admina</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Rowery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/orders">Zamówienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/opinions">Opinie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/password">Zmień hasło</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Wyloguj</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Panel Admina</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Zarządzanie wypożyczeniami</p>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid mt-4 text-center">
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Wypożyczone rowery</th>
-            <th>Data rozpoczęcia wynajmu</th>
-            <th>Data zwrotu</th>
-            <th>Imię klienta</th>
-            <th>Nazwisko klienta</th>
-            <th>Adres zamieszkania</th>
-            <th>Miasto</th>
-            <th>Kod pocztowy</th>
-            <th>Email</th>
-            <th>Numer telefonu</th>
-            <th>Do zapłaty [PLN]</th>
-            <th>Dopłata za późniejszy zwrot [PLN]</th>
-            <th>Całkowita zapłata [PLN]</th>
-            <th>Nalicz kary</th>
-            <th>Odlicz kary</th>
-            <th>Usuń</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orders}" class="align-middle">
-            <form method="post" action="/admin/addPenalty" id="orderFormAddPenalty">
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.bicycles}"></td>
-                <td th:text="${#dates.format(order.beginRent, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:text="${#dates.format(order.endRent, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:text="${order.customerFirstName}"></td>
-                <td th:text="${order.customerLastName}"></td>
-                <td th:text="${order.customerAddress}"></td>
-                <td th:text="${order.customerCity}"></td>
-                <td th:text="${order.customerPostalCode}"></td>
-                <td th:text="${order.customerEmail}"></td>
-                <td th:text="${order.customerPhoneNum}"></td>
-                <td th:text="${order.price}"></td>
-                <td th:text="${order.penaltyPrice}"></td>
-                <td th:text="${order.totalPrice}"></td>
-                <input type="hidden" name="id" id="orderIdInput1" th:value="${order.id}">
-                <td>
-                    <button type="submit" class="btn btn-primary">Nalicz</button>
-                </td>
-            </form>
-            <form method="post" action="/admin/cancelPenalty" id="orderFormCancelPenalty">
-                <input type="hidden" name="id" id="orderIdInput2" th:value="${order.id}">
-                <td>
-                    <button type="submit" class="btn btn-warning">Odlicz</button>
-                </td>
-            </form>
-            <form method="post" action="/admin/deleteOrder" id="orderFormDelete">
-                <input type="hidden" name="id" id="orderIdInput3" th:value="${order.id}">
-                <td>
-                    <button type="submit" class="btn btn-danger">Usuń</button>
-                </td>
-            </form>
-        </tr>
-        </tbody>
-    </table>
+        <h1 class="my-4">Wypożyczenia</h1>
 
-</div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Wypożyczone rowery</th>
+                <th>Data rozpoczęcia wynajmu</th>
+                <th>Data zwrotu</th>
+                <th>Imię klienta</th>
+                <th>Nazwisko klienta</th>
+                <th>Adres zamieszkania</th>
+                <th>Miasto</th>
+                <th>Kod pocztowy</th>
+                <th>Email</th>
+                <th>Numer telefonu</th>
+                <th>Do zapłaty [PLN]</th>
+                <th>Dopłata za późniejszy zwrot [PLN]</th>
+                <th>Całkowita zapłata [PLN]</th>
+                <th>Nalicz kary</th>
+                <th>Odlicz kary</th>
+                <th>Usuń</th>
+                <th>Finalizuj</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}" class="align-middle">
+                <form method="post" action="/admin/addPenalty" id="orderFormAddPenalty">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.bicycles}"></td>
+                    <td th:text="${#dates.format(order.beginRent, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${#dates.format(order.endRent, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${order.customerFirstName}"></td>
+                    <td th:text="${order.customerLastName}"></td>
+                    <td th:text="${order.customerAddress}"></td>
+                    <td th:text="${order.customerCity}"></td>
+                    <td th:text="${order.customerPostalCode}"></td>
+                    <td th:text="${order.customerEmail}"></td>
+                    <td th:text="${order.customerPhoneNum}"></td>
+                    <td th:text="${order.price}"></td>
+                    <td th:text="${order.penaltyPrice}"></td>
+                    <td th:text="${order.totalPrice}"></td>
+                    <input type="hidden" name="id" id="orderIdInput1" th:value="${order.id}">
+                    <td>
+                        <button type="submit" class="btn btn-primary">Nalicz</button>
+                    </td>
+                </form>
+                <form method="post" action="/admin/cancelPenalty" id="orderFormCancelPenalty">
+                    <input type="hidden" name="id" id="orderIdInput2" th:value="${order.id}">
+                    <td>
+                        <button type="submit" class="btn btn-warning">Odlicz</button>
+                    </td>
+                </form>
+                <form method="post" action="/admin/deleteOrder" id="orderFormDelete">
+                    <input type="hidden" name="id" id="orderIdInput3" th:value="${order.id}">
+                    <td>
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </td>
+                </form>
+                <form method="post" action="/admin/finalizeOrder" id="orderFormFinalize">
+                    <input type="hidden" name="id" id="orderIdInput4" th:value="${order.id}">
+                    <td>
+                        <button type="submit" class="btn btn-success">Finalizuj</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
 
-<!-- Bootstrap JS and Popper.js scripts (needed for some Bootstrap features) -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYlCVI" crossorigin="anonymous"></script>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js scripts (needed for some Bootstrap features) -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYlCVI" crossorigin="anonymous"></script>
 
 </body>
 

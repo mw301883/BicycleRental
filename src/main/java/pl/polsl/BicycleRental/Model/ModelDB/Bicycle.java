@@ -49,7 +49,7 @@ public class Bicycle {
     public boolean isDisable() {
         return disable;
     }
-    //TODO dopracować tak aby rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany. Dodać kolumne isAvaiable
+    //TODO dopracować tak aby rower wyswietlał się w momencie gdy użytkownik poda datę, w której rower nie jest zarezerwowany. Dodać kolumne isAvaiable - można olać
     public boolean isRented() {
         return rentStartDate != null && rentEndDate != null;
     }
@@ -58,12 +58,12 @@ public class Bicycle {
         this.rentStartDate = start;
         this.rentEndDate = end;
     }
-    public boolean isDateRangeOverlap(Calendar start1, Calendar end1, Calendar start2, Calendar end2) {
+    public boolean isDateRangeOverlap(Calendar start, Calendar end) {
         try {
-            if (start1 != null && end1 != null && start2 != null && end2 != null) {
+            if (start != null && end != null && this.rentStartDate != null && this.rentEndDate != null) {
                 // Sprawdź czy daty nakładają się tylko gdy obie pary dat nie są nullami
-                return (start1.before(end2) && end1.after(start2)) ||  // Normalny przypadek
-                        (start1.equals(start2) || end1.equals(end2));   // Przypadek daty równej
+                return (start.before(this.rentStartDate) && end.after(this.rentEndDate)) ||  // Normalny przypadek
+                        (start.equals(this.rentStartDate) || end.equals(this.rentEndDate));   // Przypadek daty równej
 
             } else {
                 // Jeśli chociaż jedna para dat jest null, nie zwracaj nakładającego się zakresu dat

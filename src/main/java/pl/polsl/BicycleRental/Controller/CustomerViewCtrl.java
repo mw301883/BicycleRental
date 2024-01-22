@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.polsl.BicycleRental.Configuration.ConfigConstants;
 import pl.polsl.BicycleRental.Model.Cart;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,15 +45,17 @@ public class CustomerViewCtrl {
         this.orderServ = orderServ;
         this.sessionCart = new Cart();
     }
-    
+
     @GetMapping("/store")
     public String mainPage(Model model) {
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
         List<Bicycle> allBicycles = this.bicycleServ.findAll(this.sessionCart);
         List<Bicycle> availableBicycles = allBicycles.stream()
-                .filter(b -> !b.isDisable() && !b.isDateRangeOverlap(start, end, b.getRentStartDate(), b.getRentEndDate()))
+                .filter(b -> !b.isDisable() && !b.isDateRangeOverlap(start, end)) //b.getRentStartDate() == null && b.getRentEndDate() == null
+                .sorted(Comparator.comparing(Bicycle::getId))
                 .collect(Collectors.toList());
+        updateBicyclesInCartGlobalDisplay();
         model.addAttribute("bicycles", availableBicycles);
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/index";
@@ -92,12 +96,20 @@ public class CustomerViewCtrl {
         return "CustomerView/contact";
     }
 
-    //TODO zaimplementować promocję
     @GetMapping("/cart")
     public String cartPage(Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
-        model.addAttribute("price", this.sessionCart.getPrice());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        model.addAttribute("beginDate", this.sessionCart.getBeginRent());
+        model.addAttribute("endDate", this.sessionCart.getEndRent());
+        if (this.sessionCart.getCartSize() > 4) {
+            model.addAttribute("message", "Przysługuje ci zniżka 15% od całej wartości zamówienia!");
+            model.addAttribute("info", "(Nowa cena ze zniżką)");
+            model.addAttribute("price",
+                    this.sessionCart.getPrice().subtract(this.sessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))));
+        } else {
+            model.addAttribute("price", this.sessionCart.getPrice());
+        }
         return "CustomerView/cart";
     }
 
@@ -126,14 +138,14 @@ public class CustomerViewCtrl {
 
         this.orderServ.makeOrder(new Order(this.sessionCart.getBicyclesIDs(), this.sessionCart.getBeginRent(),
                 this.sessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
-                email, phoneNum, this.sessionCart.getPrice()));
+                email, phoneNum, (this.sessionCart.getCartSize() > 4)
+                ? this.sessionCart.getPrice()
+                .subtract(this.sessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))) : this.sessionCart.getPrice()));
 
         for (Long id : this.sessionCart.getBicyclesIDs()) {
             this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
         }
-        for (long id : this.bicycleServ.getCartBicycleIdList()) {
-            this.bicycleServ.setDisableBicycle(id);
-        }
+
         this.bicycleServ.clearCartBicycleIdList();
         this.sessionCart.clearCart();
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
@@ -145,11 +157,9 @@ public class CustomerViewCtrl {
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
-        Calendar databaseStart = bicycle.getRentStartDate();
-        Calendar databaseEnd = bicycle.getRentEndDate();
 
         if (start != null && end != null) {
-            if (!bicycle.isDateRangeOverlap(start, end, databaseStart, databaseEnd)) {
+            if (!bicycle.isDateRangeOverlap(start, end)) {
                 this.sessionCart.addBicycleToCart(bicycle);
                 this.bicycleServ.addToCartBicycleIdList(LongId);
                 redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
@@ -163,7 +173,7 @@ public class CustomerViewCtrl {
         return "redirect:/store";
     }
 
-    private void updateBicyclesInCartGlobalDisplay(){
+    private void updateBicyclesInCartGlobalDisplay() {
         ArrayList<Long> bicycleIDs = new ArrayList<>();
         BigDecimal price = new BigDecimal(0);
         long differenceDays = 0;

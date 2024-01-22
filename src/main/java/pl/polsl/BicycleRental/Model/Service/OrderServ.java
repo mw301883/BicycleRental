@@ -2,7 +2,9 @@ package pl.polsl.BicycleRental.Model.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
+import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
 import pl.polsl.BicycleRental.Model.Repository.OrderRepo;
 
 import java.math.BigDecimal;
@@ -15,10 +17,16 @@ import java.util.Optional;
 @Service
 public class OrderServ {
     private final OrderRepo orderRepo;
+    private final BicycleRepo bicycleRepo;
 
     @Autowired
-    OrderServ(OrderRepo orderRepo) {
+    OrderServ(OrderRepo orderRepo, BicycleRepo bicycleRepo) {
         this.orderRepo = orderRepo;
+        this.bicycleRepo = bicycleRepo;
+    }
+
+    public Order getOrderById(Long id){
+        return this.orderRepo.findById(id).get();
     }
 
     public void makeOrder(Order order) {
@@ -27,6 +35,10 @@ public class OrderServ {
 
     public List<Order> findAll() {
         return this.orderRepo.findAll();
+    }
+
+    public ArrayList<Long> getOrderBicyclesById(Long id){
+        return this.orderRepo.findById(id).get().getBicycles();
     }
 
     public void deleteOrder(Long id) {
@@ -65,6 +77,21 @@ public class OrderServ {
         }
 
         this.orderRepo.saveAll(orderList);
+    }
+
+    public void releaseOrderBicycles(ArrayList<Long> bycyclesIds) {
+        for (Long id : bycyclesIds) {
+            Bicycle bicycle = this.bicycleRepo.getById(id);
+            bicycle.setRentStartDate(null);
+            bicycle.setRentEndDate(null);
+            this.bicycleRepo.save(bicycle);
+        }
+    }
+
+    public void finalizeOrderById(Long id){
+        Order order = this.orderRepo.findById(id).get();
+        order.setIsFinalized(true);
+        this.orderRepo.save(order);
     }
 
 }
