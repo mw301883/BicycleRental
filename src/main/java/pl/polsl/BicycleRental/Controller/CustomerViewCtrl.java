@@ -74,6 +74,7 @@ public class CustomerViewCtrl {
             redirectAttributes.addFlashAttribute("error", "Wszystkie pola są wymagane!");
             return "redirect:/opinions";
         }
+        redirectAttributes.addFlashAttribute("message", "Opinia została wysłana.");
         this.opinionServ.addOpinion(new Opinion(name, email, subject, message));
         return "redirect:/opinions";
     }
