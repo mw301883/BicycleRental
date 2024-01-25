@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="Adding success alert to opinion page.">
+    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/opinions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/opinions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/aboutUs.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/CustomerView/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705932311176</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Adding success alert to opinion page and label's translation to polish.">
+      <option name="closed" value="true" />
+      <created>1705942425597</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705942425597</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -147,7 +156,8 @@
     <MESSAGE value="Fixing issues - wrong price display after bicycle removal, wrong store bikes display  after adding/removing from cart" />
     <MESSAGE value="Adding dicount, adding button &quot;finalizuj&quot; to finalize order and return rented bikes to offer" />
     <MESSAGE value="Adding success alert to opinion page." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding success alert to opinion page." />
+    <MESSAGE value="Adding success alert to opinion page and label's translation to polish." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding success alert to opinion page and label's translation to polish." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

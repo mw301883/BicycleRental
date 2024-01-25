@@ -163,7 +163,7 @@ public class AdminViewCtrl {
     @PostMapping("/finalizeOrder")
     public String finalizeOrder(@RequestParam Long id, RedirectAttributes redirectAttributes){
         this.orderServ.finalizeOrderById(id);
-        redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało zfinalizowane pomyślnie. Wypożyczone rowery zostały zwrócone do ofrety. Od tej pory nie można naliczać kar do zamówienia.");
+        redirectAttributes.addFlashAttribute("message", "Zamówienie o ID : " + id + " zostało zfinalizowane pomyślnie. Wypożyczone rowery zostały zwrócone do oferty. Od tej pory nie można naliczać kar do zamówienia.");
         this.orderServ.releaseOrderBicycles(this.orderServ.getOrderBicyclesById(id));
         return "redirect:/admin/orders";
     }
