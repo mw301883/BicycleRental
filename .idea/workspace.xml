@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/AdminView/changePasswordPanel.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705942425597</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Final version v1">
+      <option name="closed" value="true" />
+      <created>1706207358109</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706207358109</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -154,7 +163,8 @@
     <MESSAGE value="Adding dicount, adding button &quot;finalizuj&quot; to finalize order and return rented bikes to offer" />
     <MESSAGE value="Adding success alert to opinion page." />
     <MESSAGE value="Adding success alert to opinion page and label's translation to polish." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding success alert to opinion page and label's translation to polish." />
+    <MESSAGE value="Final version v1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final version v1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
