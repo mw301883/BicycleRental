@@ -1,0 +1,25 @@
+services:
+  bicycle_rental_db:
+    ports:
+      - 5432:5432
+    container_name: bicycle_rental_db
+    image: postgres
+    environment:
+      - POSTGRES_DB=BicycleRental
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+    volumes:
+      - C:\postgres_datapart:/var/lib/postgresql/data
+    restart: always
+  bicycle_rental_app:
+    build: ./
+    container_name: bicycle_rental_app
+    ports:
+      - 8080:8080
+    environment:
+      db-url: jdbc:postgresql://bicycle_rental_db:5432/BicycleRental
+      db-username: postgres
+      db-password: password
+    depends_on:
+      - bicycle_rental_db
+    restart: always
