@@ -4,7 +4,7 @@
 #EXPOSE 8080
 #ENTRYPOINT ["java", "-jar", "/bicyclerental.jar"]
 
-FROM maven:3.8.5-openjdk-17 AS build
+FROM jelastic/maven:3.9.5-openjdk-21 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
