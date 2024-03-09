@@ -6,7 +6,7 @@
 
 FROM openjdk:21 AS build
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests=true
 
 FROM openjdk:21
 COPY --from=build ./target/BicycleRental-0.0.1-SNAPSHOT.jar bicyclerental.jar
