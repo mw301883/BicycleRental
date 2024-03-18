@@ -18,22 +18,9 @@ import java.util.stream.Collectors;
 @Service
 public class BicycleServ {
     private final BicycleRepo bicycleRepo;
-    @Getter
-    private List<Long> cartBicycleIdList = new ArrayList<>();
     @Autowired
     BicycleServ(BicycleRepo bicycleRepo){
         this.bicycleRepo = bicycleRepo;
-    }
-
-    public void addToCartBicycleIdList(Long value) {
-        cartBicycleIdList.add(value);
-    }
-    public void removeFromCartBicycleIdList(Long value) {
-        cartBicycleIdList.remove(value);
-    }
-
-    public void clearCartBicycleIdList() {
-        cartBicycleIdList.clear();
     }
     public List<Bicycle> findAll(){
         return this.bicycleRepo.findAll()

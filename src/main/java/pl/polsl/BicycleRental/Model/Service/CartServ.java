@@ -20,7 +20,6 @@ public class CartServ {
         if(cart == null) {
             Cart newSessionCart = new Cart();
             newSessionCart.setSessionID(sessionID);
-            //newSessionCart.setBicyclesInCart(null);
             return this.cartRepo.save(newSessionCart);
         }
         return cart;
@@ -29,5 +28,4 @@ public class CartServ {
     public void updateCart(Cart cart) {
         this.cartRepo.save(cart);
     }
-
 }

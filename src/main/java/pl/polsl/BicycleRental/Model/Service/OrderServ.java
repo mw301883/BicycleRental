@@ -38,7 +38,7 @@ public class OrderServ {
     }
 
     public ArrayList<Long> getOrderBicyclesById(Long id){
-        return this.orderRepo.findById(id).get().getBicycles();
+        return (ArrayList<Long>) this.orderRepo.findById(id).get().getBicycles();
     }
 
     public void deleteOrder(Long id) {

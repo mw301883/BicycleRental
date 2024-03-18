@@ -111,7 +111,7 @@ public class CustomerViewCtrl {
     public String cartPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
         this.sessionCart = cartServ.findBySessionID(session.getId());
         ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-        for(Long id : this.sessionCart.getBicyclesIDs()){
+        for (Long id : this.sessionCart.getBicyclesIDs()) {
             bicyclesInCart.add(bicycleServ.getBicycleById(id));
         }
         model.addAttribute("bicyclesInCart", bicyclesInCart);
@@ -157,18 +157,14 @@ public class CustomerViewCtrl {
             redirectAttributes.addFlashAttribute("error", "Nie można złożyć pustego zamówienia.");
             return "redirect:/store";
         }
-
-        this.orderServ.makeOrder(new Order(this.sessionCart.getBicyclesIDs(), this.sessionCart.getBeginRent(),
+        this.orderServ.makeOrder(new Order( new ArrayList<>(this.sessionCart.getBicyclesIDs()), this.sessionCart.getBeginRent(),
                 this.sessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
                 email, phoneNum, (this.sessionCart.getCartSize() > 4)
                 ? this.sessionCart.getPrice()
                 .subtract(this.sessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))) : this.sessionCart.getPrice()));
-
         for (Long id : this.sessionCart.getBicyclesIDs()) {
             this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
         }
-
-        this.bicycleServ.clearCartBicycleIdList();
         this.sessionCart.clearCart();
         cartServ.updateCart(this.sessionCart);
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
@@ -185,7 +181,6 @@ public class CustomerViewCtrl {
         if (start != null && end != null) {
             if (!bicycle.isDateRangeOverlap(start, end)) {
                 this.sessionCart.addBicycleToCart(bicycle.getId());
-                this.bicycleServ.addToCartBicycleIdList(LongId);
                 redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
             } else {
                 redirectAttributes.addFlashAttribute("error", "Nie można dodać roweru do koszyka. Brak daty wynajmu.");
@@ -207,7 +202,7 @@ public class CustomerViewCtrl {
             differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
         }
         ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-        for(Long id : this.sessionCart.getBicyclesIDs()){
+        for (Long id : this.sessionCart.getBicyclesIDs()) {
             bicyclesInCart.add(bicycleServ.getBicycleById(id));
         }
         if (bicyclesInCart == null) {
