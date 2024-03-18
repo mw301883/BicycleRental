@@ -1,5 +1,7 @@
 package pl.polsl.BicycleRental.Controller;
 
+import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -7,11 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.BicycleRental.Configuration.ConfigConstants;
-import pl.polsl.BicycleRental.Model.Cart;
+import pl.polsl.BicycleRental.Model.ModelDB.Cart;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
 import pl.polsl.BicycleRental.Model.Service.BicycleServ;
+import pl.polsl.BicycleRental.Model.Service.CartServ;
 import pl.polsl.BicycleRental.Model.Service.OpinionServ;
 import pl.polsl.BicycleRental.Model.Service.OrderServ;
 
@@ -36,18 +39,21 @@ public class CustomerViewCtrl {
     private final OpinionServ opinionServ;
     private final BicycleServ bicycleServ;
     private final OrderServ orderServ;
+    private final CartServ cartServ;
     private Cart sessionCart;
 
     @Autowired
-    CustomerViewCtrl(OpinionServ opinionServ, BicycleServ bicycleServ, OrderServ orderServ) {
+    CustomerViewCtrl(OpinionServ opinionServ, BicycleServ bicycleServ, OrderServ orderServ, CartServ cartServ) {
         this.opinionServ = opinionServ;
         this.bicycleServ = bicycleServ;
         this.orderServ = orderServ;
-        this.sessionCart = new Cart();
+        this.cartServ = cartServ;
+        this.sessionCart = null;
     }
 
     @GetMapping("/store")
-    public String mainPage(Model model) {
+    public String mainPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
         List<Bicycle> allBicycles = this.bicycleServ.findAll(this.sessionCart);
@@ -62,7 +68,8 @@ public class CustomerViewCtrl {
     }
 
     @GetMapping("/opinions")
-    public String opinionsPage(Model model) {
+    public String opinionsPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/opinions";
     }
@@ -80,26 +87,34 @@ public class CustomerViewCtrl {
     }
 
     @GetMapping("/aboutUs")
-    public String aboutUsPage(Model model) {
+    public String aboutUsPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/aboutUs";
     }
 
     @GetMapping("/regulations")
-    public String regulationsPage(Model model) {
+    public String regulationsPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/rules";
     }
 
     @GetMapping("/contact")
-    public String contactPage(Model model) {
+    public String contactPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/contact";
     }
 
     @GetMapping("/cart")
-    public String cartPage(Model model, RedirectAttributes redirectAttributes) {
-        model.addAttribute("bicyclesInCart", this.sessionCart.getBicyclesInCart());
+    public String cartPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
+        ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
+        for(Long id : this.sessionCart.getBicyclesIDs()){
+            bicyclesInCart.add(bicycleServ.getBicycleById(id));
+        }
+        model.addAttribute("bicyclesInCart", bicyclesInCart);
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         model.addAttribute("beginDate", this.sessionCart.getBeginRent());
         model.addAttribute("endDate", this.sessionCart.getEndRent());
@@ -115,14 +130,18 @@ public class CustomerViewCtrl {
     }
 
     @PostMapping("/removeFromCart")
-    public String removeFromCart(@RequestParam int index) {
-        this.sessionCart.removeBicycleFromCart(index);
+    public String removeFromCart(@RequestParam int index, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
+        BigDecimal pricePerDay = bicycleServ.getBicycleById(this.sessionCart.getBicyclesIDs().get(index)).getPricePerDay();
+        this.sessionCart.removeBicycleFromCart(index, pricePerDay);
         updateBicyclesInCartGlobalDisplay();
+        cartServ.updateCart(this.sessionCart);
         return "redirect:/cart";
     }
 
     @GetMapping("/summary")
-    public String summaryPage(Model model) {
+    public String summaryPage(Model model, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/summary";
     }
@@ -131,7 +150,9 @@ public class CustomerViewCtrl {
     public String makeOrder(@RequestParam String firstName, @RequestParam String lastName,
                             @RequestParam String address, @RequestParam String city, @RequestParam String postalCode,
                             @RequestParam String email, @RequestParam String phoneNum,
-                            RedirectAttributes redirectAttributes) {
+                            RedirectAttributes redirectAttributes,
+                            HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         if (this.sessionCart.getBicyclesIDs().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Nie można złożyć pustego zamówienia.");
             return "redirect:/store";
@@ -149,19 +170,21 @@ public class CustomerViewCtrl {
 
         this.bicycleServ.clearCartBicycleIdList();
         this.sessionCart.clearCart();
+        cartServ.updateCart(this.sessionCart);
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
         return "redirect:/store";
     }
 
     @PostMapping("/addToCart")
-    public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes) {
+    public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes, HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
 
         if (start != null && end != null) {
             if (!bicycle.isDateRangeOverlap(start, end)) {
-                this.sessionCart.addBicycleToCart(bicycle);
+                this.sessionCart.addBicycleToCart(bicycle.getId());
                 this.bicycleServ.addToCartBicycleIdList(LongId);
                 redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
             } else {
@@ -171,6 +194,7 @@ public class CustomerViewCtrl {
             redirectAttributes.addFlashAttribute("error", "Wypełnij wszystkie pola dotyczące daty wynajmu.");
         }
         updateBicyclesInCartGlobalDisplay();
+        cartServ.updateCart(this.sessionCart);
         return "redirect:/store";
     }
 
@@ -182,7 +206,14 @@ public class CustomerViewCtrl {
             long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
             differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
         }
-        for (Bicycle bicycle : this.sessionCart.getBicyclesInCart()) {
+        ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
+        for(Long id : this.sessionCart.getBicyclesIDs()){
+            bicyclesInCart.add(bicycleServ.getBicycleById(id));
+        }
+        if (bicyclesInCart == null) {
+            return;
+        }
+        for (Bicycle bicycle : bicyclesInCart) {
             price = price.add(bicycle.getPricePerDay());
             if (differenceDays != 0) {
                 this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
@@ -197,9 +228,10 @@ public class CustomerViewCtrl {
     @PostMapping("setRentalDate")
     public String setRentalDate(@RequestParam("beginDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate beginDate,
                                 @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                HttpSession session) {
+        this.sessionCart = cartServ.findBySessionID(session.getId());
         LocalDate currentDate = LocalDate.now();
-
         if (beginDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
             redirectAttributes.addFlashAttribute("error", "Nie można wybrać daty z przeszłości.");
             return "redirect:/store";
@@ -219,6 +251,7 @@ public class CustomerViewCtrl {
         String formattedEndDate = dateFormat.format(endCalendar.getTime());
         redirectAttributes.addFlashAttribute("message", "Ustawiono datę wypożyczenia od "
                 + formattedBeginDate + " do " + formattedEndDate);
+        cartServ.updateCart(this.sessionCart);
         return "redirect:/store";
     }
 }

@@ -3,7 +3,7 @@ package pl.polsl.BicycleRental.Model.Service;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.polsl.BicycleRental.Model.Cart;
+import pl.polsl.BicycleRental.Model.ModelDB.Cart;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-//W klasach z adnotacją @Service piszemy całą logikę zarządzania DB na przykład operacje CRUD czy inne zarządanie danymi.
+//W klasach z adnotacją @Service piszemy całą logikę zarządzania DB na przykład operacje CRUD czy inne zarządzanie danymi.
 @Service
 public class BicycleServ {
     private final BicycleRepo bicycleRepo;

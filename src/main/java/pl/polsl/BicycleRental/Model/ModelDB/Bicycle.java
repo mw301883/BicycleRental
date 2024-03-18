@@ -28,15 +28,12 @@ public class Bicycle {
     private String photoURL;
     @Column(name = "pricePerDay")
     private BigDecimal pricePerDay;
-    @Getter
     @Column(name = "rentStartDate")
     private Calendar rentStartDate;
-    @Getter
     @Column(name = "rentEndDate")
     private Calendar rentEndDate;
     @Column(name = "Disable")
     private Boolean disable;
-
     public Bicycle(String name, String type, String photoURL, double pricePerDay){
         this.name = name;
         this.type = type;
