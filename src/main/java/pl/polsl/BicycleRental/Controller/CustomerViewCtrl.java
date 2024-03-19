@@ -160,8 +160,10 @@ public class CustomerViewCtrl {
                 .stream()
                 .anyMatch(id ->
                         this.bicycleServ.getBicycleById(id).getRentStartDate() != null)) {
-            redirectAttributes.addFlashAttribute("error", "Przepraszamy, niektóre z rowerów w koszyku zostały wynajęty chwilę temu" +
+            redirectAttributes.addFlashAttribute("error", "Przepraszamy, niektóre z rowerów dodane do koszyka zostały wynajęte chwilę temu" +
                     " i nie są już dostępne w żądanym terminie, proszę wybrać inne rowery.");
+            currentSessionCart.clearCart();
+            cartServ.updateCart(session, currentSessionCart, this.sessionCarts);
             return "redirect:/store";
         }
         this.orderServ.makeOrder(new Order(new ArrayList<>(currentSessionCart.getBicyclesIDs()), currentSessionCart.getBeginRent(),
@@ -256,8 +258,10 @@ public class CustomerViewCtrl {
         return "redirect:/store";
     }
 
+    //Endpoint informacyjny ile aktualnie istnieje koszyków w aplikacji
     @GetMapping("/carts")
-    public String carts() {
-        return this.sessionCarts.toString();
+    public String carts(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("message", this.sessionCarts.toString());
+        return "redirect:/store";
     }
 }
