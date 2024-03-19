@@ -144,6 +144,7 @@ public class CustomerViewCtrl {
         return "CustomerView/summary";
     }
 
+    //TODO sprawdzić przed dodaniem do koszyka czy rower jest dostępny (synchronizacja) - Piter (potem zmodyfikować część kodu sprawdzającą dostępność roweru)
     @PostMapping("/makeOrder")
     public String makeOrder(@RequestParam String firstName, @RequestParam String lastName,
                             @RequestParam String address, @RequestParam String city, @RequestParam String postalCode,
@@ -153,6 +154,14 @@ public class CustomerViewCtrl {
         Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
         if (currentSessionCart.getBicyclesIDs().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Nie można złożyć pustego zamówienia.");
+            return "redirect:/store";
+        }
+        if (currentSessionCart.getBicyclesIDs()
+                .stream()
+                .anyMatch(id ->
+                        this.bicycleServ.getBicycleById(id).getRentStartDate() != null)) {
+            redirectAttributes.addFlashAttribute("error", "Przepraszamy, niektóre z rowerów w koszyku zostały wynajęty chwilę temu" +
+                    " i nie są już dostępne w żądanym terminie, proszę wybrać inne rowery.");
             return "redirect:/store";
         }
         this.orderServ.makeOrder(new Order(new ArrayList<>(currentSessionCart.getBicyclesIDs()), currentSessionCart.getBeginRent(),
@@ -171,11 +180,10 @@ public class CustomerViewCtrl {
 
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes, HttpSession session) {
-        Cart currentSessionCart = cartServ.findBySessionID(session,this.sessionCarts);
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         Calendar start = currentSessionCart.getBeginRent();
         Calendar end = currentSessionCart.getEndRent();
-
         if (start != null && end != null) {
             if (!bicycle.isDateRangeOverlap(start, end)) {
                 currentSessionCart.addBicycleToCart(bicycle.getId());
@@ -246,5 +254,10 @@ public class CustomerViewCtrl {
                 + formattedBeginDate + " do " + formattedEndDate);
         cartServ.updateCart(session, currentSessionCart, this.sessionCarts);
         return "redirect:/store";
+    }
+
+    @GetMapping("/carts")
+    public String carts() {
+        return this.sessionCarts.toString();
     }
 }

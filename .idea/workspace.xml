@@ -7,7 +7,6 @@
     <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710847765865</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v2 - server test, changing Cart membership of class CustomerViewCtrl as ArrayList).">
+      <option name="closed" value="true" />
+      <created>1710851788334</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1710851788334</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,14 +295,15 @@
     <MESSAGE value="application.properties update - deploy version on render.com draft." />
     <MESSAGE value="fixing making order bug - no saving bicycles IDs list in order (FIXED)" />
     <MESSAGE value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v1 - server test)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v1 - server test)" />
+    <MESSAGE value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v2 - server test, changing Cart membership of class CustomerViewCtrl as ArrayList)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v2 - server test, changing Cart membership of class CustomerViewCtrl as ArrayList)." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java</url>
-          <line>152</line>
+          <line>153</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
