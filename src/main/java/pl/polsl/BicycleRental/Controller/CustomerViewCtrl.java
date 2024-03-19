@@ -39,7 +39,7 @@ public class CustomerViewCtrl {
     private final BicycleServ bicycleServ;
     private final OrderServ orderServ;
     private final CartServ cartServ;
-    private Cart sessionCart;
+    private ArrayList<Cart> sessionCarts = new ArrayList<>();
 
     @Autowired
     CustomerViewCtrl(OpinionServ opinionServ, BicycleServ bicycleServ, OrderServ orderServ, CartServ cartServ) {
@@ -47,29 +47,28 @@ public class CustomerViewCtrl {
         this.bicycleServ = bicycleServ;
         this.orderServ = orderServ;
         this.cartServ = cartServ;
-        this.sessionCart = new Cart();
     }
 
     @GetMapping("/store")
     public String mainPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        Calendar start = this.sessionCart.getBeginRent();
-        Calendar end = this.sessionCart.getEndRent();
-        List<Bicycle> allBicycles = this.bicycleServ.findAll(this.sessionCart);
+        Cart curreentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        Calendar start = curreentSessionCart.getBeginRent();
+        Calendar end = curreentSessionCart.getEndRent();
+        List<Bicycle> allBicycles = this.bicycleServ.findAll(curreentSessionCart);
         List<Bicycle> availableBicycles = allBicycles.stream()
                 .filter(b -> !b.isDisable() && !b.isDateRangeOverlap(start, end)) //b.getRentStartDate() == null && b.getRentEndDate() == null
                 .sorted(Comparator.comparing(Bicycle::getId))
                 .collect(Collectors.toList());
-        updateBicyclesInCartGlobalDisplay();
+        updateBicyclesInCartGlobalDisplay(curreentSessionCart);
         model.addAttribute("bicycles", availableBicycles);
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        model.addAttribute("cartSize", curreentSessionCart.getCartSize());
         return "CustomerView/index";
     }
 
     @GetMapping("/opinions")
     public String opinionsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
         return "CustomerView/opinions";
     }
 
@@ -87,61 +86,61 @@ public class CustomerViewCtrl {
 
     @GetMapping("/aboutUs")
     public String aboutUsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
         return "CustomerView/aboutUs";
     }
 
     @GetMapping("/regulations")
     public String regulationsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
         return "CustomerView/rules";
     }
 
     @GetMapping("/contact")
     public String contactPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
         return "CustomerView/contact";
     }
 
     @GetMapping("/cart")
     public String cartPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
         ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-        for (Long id : this.sessionCart.getBicyclesIDs()) {
+        for (Long id : currentSessionCart.getBicyclesIDs()) {
             bicyclesInCart.add(bicycleServ.getBicycleById(id));
         }
         model.addAttribute("bicyclesInCart", bicyclesInCart);
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
-        model.addAttribute("beginDate", this.sessionCart.getBeginRent());
-        model.addAttribute("endDate", this.sessionCart.getEndRent());
-        if (this.sessionCart.getCartSize() > 4) {
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
+        model.addAttribute("beginDate", currentSessionCart.getBeginRent());
+        model.addAttribute("endDate", currentSessionCart.getEndRent());
+        if (currentSessionCart.getCartSize() > 4) {
             model.addAttribute("message", "Przysługuje ci zniżka 15% od całej wartości zamówienia!");
             model.addAttribute("info", "(Nowa cena ze zniżką)");
             model.addAttribute("price",
-                    this.sessionCart.getPrice().subtract(this.sessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))));
+                    currentSessionCart.getPrice().subtract(currentSessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))));
         } else {
-            model.addAttribute("price", this.sessionCart.getPrice());
+            model.addAttribute("price", currentSessionCart.getPrice());
         }
         return "CustomerView/cart";
     }
 
     @PostMapping("/removeFromCart")
     public String removeFromCart(@RequestParam int index, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        BigDecimal pricePerDay = bicycleServ.getBicycleById(this.sessionCart.getBicyclesIDs().get(index)).getPricePerDay();
-        this.sessionCart.removeBicycleFromCart(index, pricePerDay);
-        updateBicyclesInCartGlobalDisplay();
-        cartServ.updateCart(session, this.sessionCart);
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        BigDecimal pricePerDay = bicycleServ.getBicycleById(currentSessionCart.getBicyclesIDs().get(index)).getPricePerDay();
+        currentSessionCart.removeBicycleFromCart(index, pricePerDay);
+        updateBicyclesInCartGlobalDisplay(currentSessionCart);
+        cartServ.updateCart(session, currentSessionCart, this.sessionCarts);
         return "redirect:/cart";
     }
 
     @GetMapping("/summary")
     public String summaryPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        model.addAttribute("cartSize", this.sessionCart.getCartSize());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        model.addAttribute("cartSize", currentSessionCart.getCartSize());
         return "CustomerView/summary";
     }
 
@@ -151,35 +150,35 @@ public class CustomerViewCtrl {
                             @RequestParam String email, @RequestParam String phoneNum,
                             RedirectAttributes redirectAttributes,
                             HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
-        if (this.sessionCart.getBicyclesIDs().isEmpty()) {
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
+        if (currentSessionCart.getBicyclesIDs().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Nie można złożyć pustego zamówienia.");
             return "redirect:/store";
         }
-        this.orderServ.makeOrder(new Order( new ArrayList<>(this.sessionCart.getBicyclesIDs()), this.sessionCart.getBeginRent(),
-                this.sessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
-                email, phoneNum, (this.sessionCart.getCartSize() > 4)
-                ? this.sessionCart.getPrice()
-                .subtract(this.sessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))) : this.sessionCart.getPrice()));
-        for (Long id : this.sessionCart.getBicyclesIDs()) {
-            this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
+        this.orderServ.makeOrder(new Order(new ArrayList<>(currentSessionCart.getBicyclesIDs()), currentSessionCart.getBeginRent(),
+                currentSessionCart.getEndRent(), firstName, lastName, address, city, postalCode,
+                email, phoneNum, (currentSessionCart.getCartSize() > 4)
+                ? currentSessionCart.getPrice()
+                .subtract(currentSessionCart.getPrice().multiply(BigDecimal.valueOf(ConfigConstants.discountRate))) : currentSessionCart.getPrice()));
+        for (Long id : currentSessionCart.getBicyclesIDs()) {
+            this.bicycleServ.setRentalTimeBicycle(id, currentSessionCart.getBeginRent(), currentSessionCart.getEndRent());
         }
-        this.sessionCart.clearCart();
-        cartServ.updateCart(session, this.sessionCart);
+        currentSessionCart.clearCart();
+        cartServ.updateCart(session, currentSessionCart, this.sessionCarts);
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
         return "redirect:/store";
     }
 
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
+        Cart currentSessionCart = cartServ.findBySessionID(session,this.sessionCarts);
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
-        Calendar start = this.sessionCart.getBeginRent();
-        Calendar end = this.sessionCart.getEndRent();
+        Calendar start = currentSessionCart.getBeginRent();
+        Calendar end = currentSessionCart.getEndRent();
 
         if (start != null && end != null) {
             if (!bicycle.isDateRangeOverlap(start, end)) {
-                this.sessionCart.addBicycleToCart(bicycle.getId());
+                currentSessionCart.addBicycleToCart(bicycle.getId());
                 redirectAttributes.addFlashAttribute("message", "Rower został dodany do zamówienia.");
             } else {
                 redirectAttributes.addFlashAttribute("error", "Nie można dodać roweru do koszyka. Brak daty wynajmu.");
@@ -187,21 +186,21 @@ public class CustomerViewCtrl {
         } else {
             redirectAttributes.addFlashAttribute("error", "Wypełnij wszystkie pola dotyczące daty wynajmu.");
         }
-        updateBicyclesInCartGlobalDisplay();
-        cartServ.updateCart(session, this.sessionCart);
+        updateBicyclesInCartGlobalDisplay(currentSessionCart);
+        cartServ.updateCart(session, currentSessionCart, sessionCarts);
         return "redirect:/store";
     }
 
-    private void updateBicyclesInCartGlobalDisplay() {
+    private void updateBicyclesInCartGlobalDisplay(Cart currentSessionCart) {
         ArrayList<Long> bicycleIDs = new ArrayList<>();
         BigDecimal price = new BigDecimal(0);
         long differenceDays = 0;
-        if (this.sessionCart.getBeginRent() != null && this.sessionCart.getEndRent() != null) {
-            long differenceMillis = this.sessionCart.getEndRent().getTimeInMillis() - this.sessionCart.getBeginRent().getTimeInMillis();
+        if (currentSessionCart.getBeginRent() != null && currentSessionCart.getEndRent() != null) {
+            long differenceMillis = currentSessionCart.getEndRent().getTimeInMillis() - currentSessionCart.getBeginRent().getTimeInMillis();
             differenceDays = differenceMillis / (24 * 60 * 60 * 1000);
         }
         ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
-        for (Long id : this.sessionCart.getBicyclesIDs()) {
+        for (Long id : currentSessionCart.getBicyclesIDs()) {
             bicyclesInCart.add(bicycleServ.getBicycleById(id));
         }
         if (bicyclesInCart == null) {
@@ -210,13 +209,13 @@ public class CustomerViewCtrl {
         for (Bicycle bicycle : bicyclesInCart) {
             price = price.add(bicycle.getPricePerDay());
             if (differenceDays != 0) {
-                this.sessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
+                currentSessionCart.setPrice(price.multiply(new BigDecimal(differenceDays)));
             } else {
-                this.sessionCart.setPrice(price);
+                currentSessionCart.setPrice(price);
             }
             bicycleIDs.add(bicycle.getId());
         }
-        this.sessionCart.setBicyclesIDs(bicycleIDs);
+        currentSessionCart.setBicyclesIDs(bicycleIDs);
     }
 
     @PostMapping("setRentalDate")
@@ -224,7 +223,7 @@ public class CustomerViewCtrl {
                                 @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                                 RedirectAttributes redirectAttributes,
                                 HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
+        Cart currentSessionCart = cartServ.findBySessionID(session, this.sessionCarts);
         LocalDate currentDate = LocalDate.now();
         if (beginDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
             redirectAttributes.addFlashAttribute("error", "Nie można wybrać daty z przeszłości.");
@@ -238,14 +237,14 @@ public class CustomerViewCtrl {
         endCalendar.setTimeInMillis(
                 Instant.from(endDate.atStartOfDay(ZoneId.systemDefault())).getEpochSecond() * 1000
         );
-        this.sessionCart.setBeginRent(beginCalendar);
-        this.sessionCart.setEndRent(endCalendar);
+        currentSessionCart.setBeginRent(beginCalendar);
+        currentSessionCart.setEndRent(endCalendar);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedBeginDate = dateFormat.format(beginCalendar.getTime());
         String formattedEndDate = dateFormat.format(endCalendar.getTime());
         redirectAttributes.addFlashAttribute("message", "Ustawiono datę wypożyczenia od "
                 + formattedBeginDate + " do " + formattedEndDate);
-        cartServ.updateCart(session, this.sessionCart);
+        cartServ.updateCart(session, currentSessionCart, this.sessionCarts);
         return "redirect:/store";
     }
 }

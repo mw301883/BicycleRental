@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v1 - server test)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" afterDir="false" />
+    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/DbInit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/ScurityConf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Configuration/ScurityConf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/AdminViewCtrl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/ModelDB/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/AdminAccountRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Repository/AdminAccountRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/BicycleRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Repository/BicycleRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/CartRepo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OpinionRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Repository/OpinionRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Repository/OrderRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Repository/OrderRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/AdminAccountServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/AdminAccountServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/BicycleServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/BicycleServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/CartServ.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OpinionServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/OpinionServ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Service/OrderServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/OrderServ.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710801180893</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v1 - server test)">
+      <option name="closed" value="true" />
+      <created>1710847765864</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1710847765865</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -301,7 +295,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Controller/CustomerViewCtrl.java</url>
-          <line>153</line>
+          <line>152</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
