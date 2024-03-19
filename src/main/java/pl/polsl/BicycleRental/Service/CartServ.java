@@ -21,7 +21,7 @@ public class CartServ {
     private HttpServletRequest request;
 
     public Cart findBySessionID(HttpSession session, ArrayList<Cart> sessionCarts) {
-        removeInactiveCarts(sessionCarts);
+        //removeInactiveCarts(sessionCarts);
         String sessionID = session.getId();
         if (sessionCarts.stream()
                 .filter(cart ->
@@ -50,19 +50,20 @@ public class CartServ {
             sessionCart.setBicyclesIDs(cart.getBicyclesIDs());
         }
     }
+//TODO trzeba dopracować usuwanie koszyków z nieaktywnych sesji
 
-    public void removeInactiveCarts(ArrayList<Cart> sessionCarts) {
-        Iterator<Cart> iterator = sessionCarts.iterator();
-        while (iterator.hasNext()) {
-            Cart cart = iterator.next();
-            String sessionId = cart.getSessionID();
-            if (!isSessionActive(sessionId)) {
-                iterator.remove();
-            }
-        }
-    }
-
-    private boolean isSessionActive(String sessionId) {
-        return request.getSession(false) != null && request.getSession(false).getId().equals(sessionId);
-    }
+//    public void removeInactiveCarts(ArrayList<Cart> sessionCarts) {
+//        Iterator<Cart> iterator = sessionCarts.iterator();
+//        while (iterator.hasNext()) {
+//            Cart cart = iterator.next();
+//            String sessionId = cart.getSessionID();
+//            if (!isSessionActive(sessionId)) {
+//                iterator.remove();
+//            }
+//        }
+//    }
+//
+//    private boolean isSessionActive(String sessionId) {
+//        return request.getSession(false) != null && request.getSession(false).getId().equals(sessionId);
+//    }
 }
