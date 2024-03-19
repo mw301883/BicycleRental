@@ -1,9 +1,9 @@
-package pl.polsl.BicycleRental.Model.Service;
+package pl.polsl.BicycleRental.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
-import pl.polsl.BicycleRental.Model.Repository.OpinionRepo;
+import pl.polsl.BicycleRental.Repository.OpinionRepo;
 
 import java.util.List;
 

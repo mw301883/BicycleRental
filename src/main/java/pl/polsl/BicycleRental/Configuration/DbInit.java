@@ -1,6 +1,5 @@
 package pl.polsl.BicycleRental.Configuration;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +8,10 @@ import pl.polsl.BicycleRental.Model.ModelDB.AdminAccount;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
-import pl.polsl.BicycleRental.Model.Repository.AdminAccountRepo;
-import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
-import pl.polsl.BicycleRental.Model.Repository.OpinionRepo;
-import pl.polsl.BicycleRental.Model.Repository.OrderRepo;
+import pl.polsl.BicycleRental.Repository.AdminAccountRepo;
+import pl.polsl.BicycleRental.Repository.BicycleRepo;
+import pl.polsl.BicycleRental.Repository.OpinionRepo;
+import pl.polsl.BicycleRental.Repository.OrderRepo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

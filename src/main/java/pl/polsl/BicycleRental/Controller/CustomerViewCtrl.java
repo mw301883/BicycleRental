@@ -1,7 +1,6 @@
 package pl.polsl.BicycleRental.Controller;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -9,14 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.BicycleRental.Configuration.ConfigConstants;
-import pl.polsl.BicycleRental.Model.ModelDB.Cart;
+import pl.polsl.BicycleRental.Model.Cart;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
-import pl.polsl.BicycleRental.Model.Service.BicycleServ;
-import pl.polsl.BicycleRental.Model.Service.CartServ;
-import pl.polsl.BicycleRental.Model.Service.OpinionServ;
-import pl.polsl.BicycleRental.Model.Service.OrderServ;
+import pl.polsl.BicycleRental.Service.BicycleServ;
+import pl.polsl.BicycleRental.Service.CartServ;
+import pl.polsl.BicycleRental.Service.OpinionServ;
+import pl.polsl.BicycleRental.Service.OrderServ;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -48,12 +47,12 @@ public class CustomerViewCtrl {
         this.bicycleServ = bicycleServ;
         this.orderServ = orderServ;
         this.cartServ = cartServ;
-        this.sessionCart = null;
+        this.sessionCart = new Cart();
     }
 
     @GetMapping("/store")
     public String mainPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
         List<Bicycle> allBicycles = this.bicycleServ.findAll(this.sessionCart);
@@ -69,7 +68,7 @@ public class CustomerViewCtrl {
 
     @GetMapping("/opinions")
     public String opinionsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/opinions";
     }
@@ -88,28 +87,28 @@ public class CustomerViewCtrl {
 
     @GetMapping("/aboutUs")
     public String aboutUsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/aboutUs";
     }
 
     @GetMapping("/regulations")
     public String regulationsPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/rules";
     }
 
     @GetMapping("/contact")
     public String contactPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/contact";
     }
 
     @GetMapping("/cart")
     public String cartPage(Model model, RedirectAttributes redirectAttributes, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         ArrayList<Bicycle> bicyclesInCart = new ArrayList<>();
         for (Long id : this.sessionCart.getBicyclesIDs()) {
             bicyclesInCart.add(bicycleServ.getBicycleById(id));
@@ -131,17 +130,17 @@ public class CustomerViewCtrl {
 
     @PostMapping("/removeFromCart")
     public String removeFromCart(@RequestParam int index, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         BigDecimal pricePerDay = bicycleServ.getBicycleById(this.sessionCart.getBicyclesIDs().get(index)).getPricePerDay();
         this.sessionCart.removeBicycleFromCart(index, pricePerDay);
         updateBicyclesInCartGlobalDisplay();
-        cartServ.updateCart(this.sessionCart);
+        cartServ.updateCart(session, this.sessionCart);
         return "redirect:/cart";
     }
 
     @GetMapping("/summary")
     public String summaryPage(Model model, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         model.addAttribute("cartSize", this.sessionCart.getCartSize());
         return "CustomerView/summary";
     }
@@ -152,7 +151,7 @@ public class CustomerViewCtrl {
                             @RequestParam String email, @RequestParam String phoneNum,
                             RedirectAttributes redirectAttributes,
                             HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         if (this.sessionCart.getBicyclesIDs().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Nie można złożyć pustego zamówienia.");
             return "redirect:/store";
@@ -166,14 +165,14 @@ public class CustomerViewCtrl {
             this.bicycleServ.setRentalTimeBicycle(id, this.sessionCart.getBeginRent(), this.sessionCart.getEndRent());
         }
         this.sessionCart.clearCart();
-        cartServ.updateCart(this.sessionCart);
+        cartServ.updateCart(session, this.sessionCart);
         redirectAttributes.addFlashAttribute("message", "Zamówienie zostało złożone. Dziękujemy :)");
         return "redirect:/store";
     }
 
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam Long LongId, RedirectAttributes redirectAttributes, HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         Bicycle bicycle = this.bicycleServ.getBicycleById(LongId);
         Calendar start = this.sessionCart.getBeginRent();
         Calendar end = this.sessionCart.getEndRent();
@@ -189,7 +188,7 @@ public class CustomerViewCtrl {
             redirectAttributes.addFlashAttribute("error", "Wypełnij wszystkie pola dotyczące daty wynajmu.");
         }
         updateBicyclesInCartGlobalDisplay();
-        cartServ.updateCart(this.sessionCart);
+        cartServ.updateCart(session, this.sessionCart);
         return "redirect:/store";
     }
 
@@ -225,7 +224,7 @@ public class CustomerViewCtrl {
                                 @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                                 RedirectAttributes redirectAttributes,
                                 HttpSession session) {
-        this.sessionCart = cartServ.findBySessionID(session.getId());
+        this.sessionCart = cartServ.findBySessionID(session, sessionCart.getSessionID());
         LocalDate currentDate = LocalDate.now();
         if (beginDate.isBefore(currentDate) || endDate.isBefore(currentDate)) {
             redirectAttributes.addFlashAttribute("error", "Nie można wybrać daty z przeszłości.");
@@ -246,7 +245,7 @@ public class CustomerViewCtrl {
         String formattedEndDate = dateFormat.format(endCalendar.getTime());
         redirectAttributes.addFlashAttribute("message", "Ustawiono datę wypożyczenia od "
                 + formattedBeginDate + " do " + formattedEndDate);
-        cartServ.updateCart(this.sessionCart);
+        cartServ.updateCart(session, this.sessionCart);
         return "redirect:/store";
     }
 }

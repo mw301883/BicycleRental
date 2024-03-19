@@ -1,4 +1,4 @@
-package pl.polsl.BicycleRental.Model.ModelDB;
+package pl.polsl.BicycleRental.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,40 +12,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@Entity
-@Table(name = "Cart")
+@NoArgsConstructor
 public class Cart {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-    @Column(name = "bicyclesIDs")
     private ArrayList<Long> bicyclesIDs = new ArrayList<>();
-    @Column(name = "beginRentDate")
+
     private Calendar beginRent = null;
-    @Column(name = "endRentDate")
+
     private Calendar endRent = null;
-    @Column(name = "customerFirstName")
-    private String customerFirstName;
-    @Column(name = "customerLastName")
-    private String customerLastName;
-    @Column(name = "customerAddress")
-    private String customerAddress;
-    @Column(name = "customerCity")
-    private String customerCity;
-    @Column(name = "customerPostalCode")
-    private String customerPostalCode;
-    @Column(name = "customerEmail")
-    private String customerEmail;
-    @Column(name = "customerPhoneNum")
-    private String customerPhoneNum;
-    @Column(name = "price")
+
     private BigDecimal price = BigDecimal.valueOf(0.0);
-    @Column(name = "sessionID")
+
     private String sessionID;
     public Cart(String sessionID) {
         this.sessionID = sessionID;
@@ -76,13 +55,6 @@ public class Cart {
         this.bicyclesIDs.clear();
         this.beginRent = null;
         this.endRent = null;
-        this.customerFirstName = "";
-        this.customerLastName = "";
-        this.customerAddress = "";
-        this.customerCity = "";
-        this.customerPostalCode = "";
-        this.customerEmail = "";
-        this.customerPhoneNum = "";
         this.price = BigDecimal.valueOf(0.0);
     }
 }

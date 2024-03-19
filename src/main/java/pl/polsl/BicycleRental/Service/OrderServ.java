@@ -1,11 +1,11 @@
-package pl.polsl.BicycleRental.Model.Service;
+package pl.polsl.BicycleRental.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
-import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
-import pl.polsl.BicycleRental.Model.Repository.OrderRepo;
+import pl.polsl.BicycleRental.Repository.BicycleRepo;
+import pl.polsl.BicycleRental.Repository.OrderRepo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

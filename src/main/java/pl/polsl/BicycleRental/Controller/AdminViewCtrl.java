@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import pl.polsl.BicycleRental.Model.ModelDB.Opinion;
-import pl.polsl.BicycleRental.Model.Service.AdminAccountServ;
-import pl.polsl.BicycleRental.Model.Service.BicycleServ;
-import pl.polsl.BicycleRental.Model.Service.OpinionServ;
-import pl.polsl.BicycleRental.Model.Service.OrderServ;
+import pl.polsl.BicycleRental.Service.AdminAccountServ;
+import pl.polsl.BicycleRental.Service.BicycleServ;
+import pl.polsl.BicycleRental.Service.OpinionServ;
+import pl.polsl.BicycleRental.Service.OrderServ;
 import pl.polsl.BicycleRental.Model.ModelDB.Order;
 
 import java.util.Comparator;

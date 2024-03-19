@@ -1,10 +1,10 @@
-package pl.polsl.BicycleRental.Model.Service;
+package pl.polsl.BicycleRental.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.polsl.BicycleRental.Model.ModelDB.AdminAccount;
-import pl.polsl.BicycleRental.Model.Repository.AdminAccountRepo;
+import pl.polsl.BicycleRental.Repository.AdminAccountRepo;
 
 import java.util.Optional;
 

@@ -1,14 +1,12 @@
-package pl.polsl.BicycleRental.Model.Service;
+package pl.polsl.BicycleRental.Service;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.polsl.BicycleRental.Model.ModelDB.Cart;
+import pl.polsl.BicycleRental.Model.Cart;
 import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
-import pl.polsl.BicycleRental.Model.Repository.BicycleRepo;
+import pl.polsl.BicycleRental.Repository.BicycleRepo;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
