@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
 @Service
 public class CartServ {
 
-    @Autowired
-    private HttpServletRequest request;
-
     public Cart findBySessionID(HttpSession session, ArrayList<Cart> sessionCarts) {
         removeInactiveCarts(sessionCarts);
         String sessionID = session.getId();
@@ -49,13 +46,13 @@ public class CartServ {
             sessionCart.setBicyclesIDs(cart.getBicyclesIDs());
         }
     }
-
+    //TODO przemyśleć czy rzucać informacją o wygaśnięciu sesji lub dodać info na froncie, że rowery dodane  do koszyka są zarezerwowane na 10 min
     public void removeInactiveCarts(ArrayList<Cart> sessionCarts) {
         Iterator<Cart> iterator = sessionCarts.iterator();
         while (iterator.hasNext()) {
             Cart cart = iterator.next();
             Date currentDate = Calendar.getInstance().getTime();
-            if (Math.abs(cart.getCreatedAt().getTime() - currentDate.getTime()) == 1 * 10 * 1000) {
+            if (Math.abs(cart.getCreatedAt().getTime() - currentDate.getTime()) > 10 * 60 * 1000) { //wygaśnięcie koszyka ustawione na 10 minut -> min * sec * milisec
                 iterator.remove();
             }
         }

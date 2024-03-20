@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="">
+    <list default="true" id="57e6c873-b79e-411d-98c2-e1663a04100d" name="Changes" comment="Cart Refactor - developing inactive cart removal logic, setting cart removal to 10 minutes after creation v2.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Model/Cart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/polsl/BicycleRental/Service/CartServ.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,26 +54,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BicycleRentalApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Run.executor&quot;: &quot;Run&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Maven.BicycleRental [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.BicycleRental [install,-DskipTests=true].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.BicycleRental [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.BicycleRental [package].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;PKraska&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Michał/OneDrive/Pulpit&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BicycleRentalApplication.executor": "Run",
+    "Application.Run.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Maven.BicycleRental [clean].executor": "Run",
+    "Maven.BicycleRental [install,-DskipTests=true].executor": "Run",
+    "Maven.BicycleRental [install].executor": "Run",
+    "Maven.BicycleRental [package].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "PKraska",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Michał/OneDrive/Pulpit",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Michał\IdeaProjects\BicycleRental\src\main\resources\static\assets" />
@@ -296,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710860025213</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Cart Refactor - developing inactive cart removal logic v1.">
+      <option name="closed" value="true" />
+      <created>1710977048172</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1710977048172</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,7 +331,8 @@
     <MESSAGE value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v3 - server test, securing making order process - synchronization between customers who want to rent same bicycle)." />
     <MESSAGE value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v4 - server test, adding sessionCart removal  after detection inactive session by sessionID)." />
     <MESSAGE value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v5 - server test)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cart Refactor - removing Cart from DB and saving it in Session Cookies instead (draft version v5 - server test)." />
+    <MESSAGE value="Cart Refactor - developing inactive cart removal logic v1." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cart Refactor - developing inactive cart removal logic v1." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
