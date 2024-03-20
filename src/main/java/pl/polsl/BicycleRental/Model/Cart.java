@@ -10,6 +10,7 @@ import pl.polsl.BicycleRental.Model.ModelDB.Bicycle;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 @AllArgsConstructor
 @Getter
@@ -26,9 +27,8 @@ public class Cart {
     private BigDecimal price = BigDecimal.valueOf(0.0);
 
     private String sessionID;
-    public Cart(String sessionID) {
-        this.sessionID = sessionID;
-    }
+
+    private Date createdAt;
 
     public int getCartSize() {
         return this.bicyclesIDs.size();

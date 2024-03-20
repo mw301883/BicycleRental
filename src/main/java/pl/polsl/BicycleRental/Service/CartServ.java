@@ -9,9 +9,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import pl.polsl.BicycleRental.Model.Cart;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +19,7 @@ public class CartServ {
     private HttpServletRequest request;
 
     public Cart findBySessionID(HttpSession session, ArrayList<Cart> sessionCarts) {
-        //removeInactiveCarts(sessionCarts);
+        removeInactiveCarts(sessionCarts);
         String sessionID = session.getId();
         if (sessionCarts.stream()
                 .filter(cart ->
@@ -30,6 +28,7 @@ public class CartServ {
         ) {
             Cart newSessionCart = new Cart();
             newSessionCart.setSessionID(sessionID);
+            newSessionCart.setCreatedAt(Calendar.getInstance().getTime());
             session.setAttribute("cart", newSessionCart);
             sessionCarts.add(newSessionCart);
             return newSessionCart;
@@ -50,20 +49,15 @@ public class CartServ {
             sessionCart.setBicyclesIDs(cart.getBicyclesIDs());
         }
     }
-//TODO trzeba dopracować usuwanie koszyków z nieaktywnych sesji
 
-//    public void removeInactiveCarts(ArrayList<Cart> sessionCarts) {
-//        Iterator<Cart> iterator = sessionCarts.iterator();
-//        while (iterator.hasNext()) {
-//            Cart cart = iterator.next();
-//            String sessionId = cart.getSessionID();
-//            if (!isSessionActive(sessionId)) {
-//                iterator.remove();
-//            }
-//        }
-//    }
-//
-//    private boolean isSessionActive(String sessionId) {
-//        return request.getSession(false) != null && request.getSession(false).getId().equals(sessionId);
-//    }
+    public void removeInactiveCarts(ArrayList<Cart> sessionCarts) {
+        Iterator<Cart> iterator = sessionCarts.iterator();
+        while (iterator.hasNext()) {
+            Cart cart = iterator.next();
+            Date currentDate = Calendar.getInstance().getTime();
+            if (Math.abs(cart.getCreatedAt().getTime() - currentDate.getTime()) == 1 * 10 * 1000) {
+                iterator.remove();
+            }
+        }
+    }
 }
